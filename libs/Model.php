@@ -44,7 +44,7 @@
     public function count($condition){
       try {
         $result = $this->db->select($this->table, ['*'], $condition);
-        return count($result > 0) ? count($result) : 0;
+        return is_array($result) ? count($result) : 0;
       } catch (PDOException $e) {
         return $e->getMessage();
       }

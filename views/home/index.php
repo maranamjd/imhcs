@@ -6,7 +6,6 @@
 
 <div class="login-box-body">
 <p class="login-box-msg">Sign in to start your session</p>
-<?php echo Hash::encrypt('password12345') ?>
 
 <form id="login_form">
     <div class="form-group has-feedback">

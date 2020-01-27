@@ -19,7 +19,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<?php echo URL ?>system/uploads/img/<?php echo $this->info['user']['image'] ?>" class="user-image" alt="User Image">
-              <span class="hidden-xs"><?php echo Helper::name_format($this->info['details']['firstname'], $this->info['details']['lastname'], $this->info['details']['middlename'], true); ?></span>
+              <span class="hidden-xs"><?php echo $this->name_format($this->info['details']['firstname'], $this->info['details']['lastname'], $this->info['details']['middlename'], true); ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -27,7 +27,7 @@
                 <img src="<?php echo URL ?>public/img/unknown.png" class="img-circle" alt="User Image">
 
                 <p>
-                  <?php echo Helper::name_format($this->info['details']['firstname'], $this->info['details']['lastname'], $this->info['details']['middlename']); ?>
+                  <?php echo $this->name_format($this->info['details']['firstname'], $this->info['details']['lastname'], $this->info['details']['middlename']); ?>
                   <small><?php echo $this->info['user']['user_id'] ?></small>
                 </p>
               </li>
@@ -54,7 +54,7 @@
             <img src="<?php echo URL ?>system/uploads/img/<?php echo $this->info['user']['image'] ?>" class="img-circle" alt="User Image">
           </div>
           <div class="pull-left info">
-            <p><?php echo Helper::name_format($this->info['details']['firstname'], $this->info['details']['lastname'], $this->info['details']['middlename'], true); ?></p>
+            <p><?php echo $this->name_format($this->info['details']['firstname'], $this->info['details']['lastname'], $this->info['details']['middlename'], true); ?></p>
             <a><i class="fa fa-circle text-success"></i>Nurse</a>
           </div>
         </div>

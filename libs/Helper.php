@@ -5,6 +5,10 @@
   class Helper
   {
 
+    public function count($data){
+      return is_array($data) ? count($data) : 0;
+    }
+
     public function name_format($firstname, $lastname, $middlename = null, $middleinitial = false){
       $name = ucwords(strtolower($firstname)).' '.ucwords(strtolower($middlename)).' '.ucwords(strtolower($lastname));
       if ($middleinitial) {

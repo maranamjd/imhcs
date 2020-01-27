@@ -3,7 +3,7 @@
   /**
    *
    */
-  class Controller
+  class Controller extends Helper
   {
 
     function __construct()

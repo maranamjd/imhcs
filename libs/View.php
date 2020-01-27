@@ -3,7 +3,7 @@
   /**
    *
    */
-  class View
+  class View extends Helper
   {
 
     function __construct()

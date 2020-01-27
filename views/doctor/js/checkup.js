@@ -1,5 +1,14 @@
 $(document).ready(function(){
   $(document).on('click', '#new', function(){
+    $('#blood_pressure').val("");
+    $('#temperature').val("");
+    $('#pulse_rate').val("");
+    $('#respiration_rate').val("");
+    $('#weight').val("");
+    $('#height').val("");
+    $('#symptoms').val("");
+    $('#diagnosis').val("");
+    $('#notes').val("");
     $('#history').attr('style', 'display: none');
     $('#new_checkup').attr('style', 'display: block');
     $('#process').val('add');

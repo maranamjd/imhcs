@@ -18,12 +18,12 @@
     }
 
     public function create(){
-      $user_id = Helper::get_id();
+      $user_id = $this->get_id();
       $this->user->columns = [
         'user_id' => $user_id,
         'image' => 'unknown.png',
         'email' => $_POST['email'],
-        'password' => Hash::encrypt($_POST['email']),
+        'password' => $this->encrypt($_POST['email']),
         'user_type' => $_POST['user_type'],
       ];
       $result = $this->user->save();
@@ -84,19 +84,20 @@
 
     public function login(){
       $username = $_POST['username'];
-      $password = Hash::encrypt($_POST['password']);
-      $this->response($password);exit;
+      $password = $_POST['password'];
 
-      $result = $this->user->select(['*'], "email = '$username' AND password = '$password'");
+      $result = $this->user->select(['*'], "email = '$username'");
       if (!empty($result)) {
-        Session::set([
-          'user_id' => $result[0]['user_id'],
-          'user_type' => $result[0]['user_type']
-        ]);
-        $this->response(['res' => 1]);
-      }else {
-        $this->response(['res' => 0, 'message' => 'Username or Password do not match!']);
+        if ($this->decrypt($result[0]['password']) == $password) {
+          Session::set([
+            'user_id' => $result[0]['user_id'],
+            'user_type' => $result[0]['user_type']
+          ]);
+          $this->response(['res' => 1]);
+          exit;
+        }
       }
+      $this->response(['res' => 0, 'message' => 'Username or Password do not match!']);
     }
 
     public function logout(){

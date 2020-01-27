@@ -27,11 +27,11 @@
               <th>Tools</th>
             </thead>
             <tbody>
-              <?php if (count($this->data > 0)): ?>
+              <?php if ($this->count($this->data) > 0): ?>
                 <?php foreach ($this->data as $patient): ?>
                   <tr>
                     <td><?php echo $patient['patient_id']; ?></td>
-                    <td><?php echo Helper::name_format($patient['firstname'], $patient['lastname'], $patient['middlename'], true); ?></td>
+                    <td><?php echo $this->name_format($patient['firstname'], $patient['lastname'], $patient['middlename'], true); ?></td>
                     <td><?php echo $patient['birthdate']?></td>
                     <td><?php echo $patient['contact_info']?></td>
                     <td><?php echo date('M d, Y', strtotime($patient['created_on'])) ?></td>
