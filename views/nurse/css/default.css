@@ -1,0 +1,8 @@
+#secondary_content{
+  background-color: white;
+  padding: 1em;
+  border-radius: .2em;
+  max-height: 40em;
+  overflow-y: scroll;
+  overflow-x:hidden;
+}
