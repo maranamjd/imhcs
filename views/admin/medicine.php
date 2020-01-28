@@ -25,7 +25,7 @@
                 <th>Tools</th>
               </thead>
               <tbody>
-                <?php if (count($this->data > 0)): ?>
+                <?php if ($this->count($this->data) > 0): ?>
                   <?php foreach ($this->data as $medicine): ?>
                     <tr>
                       <td><?php echo $medicine['name']; ?></td>

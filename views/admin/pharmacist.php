@@ -28,7 +28,7 @@
                 <th>Tools</th>
               </thead>
               <tbody>
-                <?php if (count($this->data > 0)): ?>
+                <?php if ($this->count($this->data) > 0): ?>
                   <?php foreach ($this->data as $doctor): ?>
                     <tr>
                       <td><?php echo $doctor['user_id']; ?></td>

@@ -3,7 +3,7 @@
   /**
    *
    */
-  class Controller extends Helper
+  class Controller extends Hash
   {
 
     function __construct()

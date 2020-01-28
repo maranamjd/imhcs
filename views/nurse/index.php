@@ -21,7 +21,7 @@
             <div class="info-box-content">
                <a href="doctor.php">
                 <span class="info-box-text">Doctor</span>
-                <?php echo count($this->data['doctor']) ?>
+                <?php echo $this->data['doctor'] ?>
             </div>
         </div>
     </div>
@@ -33,7 +33,7 @@
             <div class="info-box-content">
                <a href="patient.php">
                 <span class="info-box-text">Nurse</span>
-                <?php echo count($this->data['nurse']) ?>
+                <?php echo $this->data['nurse'] ?>
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@
             <div class="info-box-content">
                <a href="patient.php">
                 <span class="info-box-text">Patient</span>
-                <?php echo count($this->data['patient']) ?>
+                <?php echo $this->data['patient'] ?>
             </div>
         </div>
     </div>
@@ -56,7 +56,7 @@
             <div class="info-box-content">
                <a href="patient.php">
                 <span class="info-box-text">Pharmacist</span>
-                <?php echo count($this->data['pharmacist']) ?>
+                <?php echo $this->data['pharmacist'] ?>
             </div>
         </div>
     </div>
@@ -68,7 +68,7 @@
             <div class="info-box-content">
                <a href="patient.php">
                 <span class="info-box-text">Laboratorist</span>
-                <?php echo count($this->data['laboratorist']) ?>
+                <?php echo $this->data['laboratorist'] ?>
             </div>
         </div>
     </div>
@@ -80,7 +80,7 @@
             <div class="info-box-content">
                <a href="patient.php">
                 <span class="info-box-text">Medicines</span>
-                <?php echo count($this->data['medicine']) ?>
+                <?php echo $this->data['medicine'] ?>
             </div>
         </div>
     </div>
