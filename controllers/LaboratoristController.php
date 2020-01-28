@@ -12,7 +12,7 @@
     function __construct()
     {
       parent::__construct();
-      Auth::laboratorist();
+      $this->auth->laboratorist();
       //create instance of a model
       $this->user = new User();
       $this->user_details = new User_Details();

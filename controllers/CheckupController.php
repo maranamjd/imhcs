@@ -11,9 +11,9 @@
     function __construct()
     {
       parent::__construct();
-      Auth::Doctor();
+      $this->auth->Doctor();
       $this->checkup = new Checkup();
-      $this->user_id = Session::get('user_id');
+      $this->user_id = $this->session->get('user_id');
     }
 
     public function create(){

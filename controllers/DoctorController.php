@@ -17,7 +17,7 @@
     function __construct()
     {
       parent::__construct();
-      Auth::doctor();
+      $this->auth->doctor();
       //create instance of a model
       $this->user = new User();
       $this->user_details = new User_Details();
@@ -26,7 +26,7 @@
       $this->med_category = new Med_Category();
       $this->checkup = new Checkup();
       $this->prescription = new Prescription();
-      $this->user_id = Session::get('user_id');
+      $this->user_id = $this->session->get('user_id');
       $this->view->info = $this->_get_info();
     }
 

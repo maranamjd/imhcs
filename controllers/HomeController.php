@@ -10,7 +10,7 @@
     function __construct()
     {
       parent::__construct();
-      Auth::scan();
+      $this->auth->scan();
     }
 
     public function index(){

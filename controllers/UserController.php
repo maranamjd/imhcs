@@ -23,7 +23,7 @@
         'user_id' => $user_id,
         'image' => 'unknown.png',
         'email' => $_POST['email'],
-        'password' => $this->encrypt($_POST['email']),
+        'password' => $this->hash->encrypt($_POST['email']),
         'user_type' => $_POST['user_type'],
       ];
       $result = $this->user->save();
@@ -88,8 +88,8 @@
 
       $result = $this->user->select(['*'], "email = '$username'");
       if (!empty($result)) {
-        if ($this->decrypt($result[0]['password']) == $password) {
-          Session::set([
+        if ($this->hash->decrypt($result[0]['password']) == $password) {
+          $this->session->set([
             'user_id' => $result[0]['user_id'],
             'user_type' => $result[0]['user_type']
           ]);
@@ -101,8 +101,8 @@
     }
 
     public function logout(){
-      Auth::scan();
-      Session::destroy();
+      $this->auth->scan();
+      $this->session->destroy();
       header('Location: '.URL);
     }
 

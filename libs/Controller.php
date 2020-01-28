@@ -3,13 +3,19 @@
   /**
    *
    */
-  class Controller extends Hash
+  class Controller extends Helper
   {
 
     function __construct()
     {
       // echo 'main controller<br>';
       $this->view = new View();
+      $this->helper = new Helper();
+      $this->session = new Session();
+      $this->report = new Report();
+      $this->hash = new Hash();
+      $this->auth = new Auth();
+
     }
 
     public function setPage($page){

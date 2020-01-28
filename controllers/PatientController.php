@@ -18,7 +18,7 @@
     public function create(){
       $this->patient->columns = [
         'id' => null,
-        'patient_id' => Helper::get_id(),
+        'patient_id' => $this->helper->get_id(),
         'firstname' => $_POST['firstname'],
         'middlename' => $_POST['middlename'] == '' ? null : $_POST['middlename'],
         'lastname' => $_POST['lastname'],
