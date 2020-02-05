@@ -15,7 +15,6 @@
       $this->report = new Report();
       $this->hash = new Hash();
       $this->auth = new Auth();
-
     }
 
     public function setPage($page){

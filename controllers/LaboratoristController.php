@@ -16,6 +16,8 @@
       //create instance of a model
       $this->user = new User();
       $this->user_details = new User_Details();
+      $this->user_id = $this->session->get('user_id');
+      $this->view->info = $this->_get_info();
     }
 
     public function index(){
@@ -24,7 +26,7 @@
       $this->view->css = ['laboratorist/css/default.css'];
 
       //render page
-      $this->view->render('laboratorist/index');
+      $this->view->render('laboratorist/index', 'laboratorist/inc');
     }
 
   }
