@@ -73,5 +73,9 @@
       }
     }
 
+    public function search(){
+      $key = $_POST['key'];
+      echo json_encode($this->patient->select(['patient_id', "concat(lastname,', ', firstname) as 'name'", 'address', 'birthdate'], "firstname LIKE '%$key%' OR middlename LIKE '%$key%' OR lastname LIKE '%$key%'"));
+    }
 
   }

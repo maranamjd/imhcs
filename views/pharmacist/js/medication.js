@@ -1,12 +1,11 @@
 $(document).ready(function(){
-  $('#category_table').DataTable();
-  $('#product_table').DataTable();
+  $('#medication_table').DataTable();
 
-  $(document).on('submit', '#suggestion_form', function(e){
-    e.preventDefault();
+
+  $(document).on('click', '#fulfill', function(e){
     Swal.fire({
       title: 'Continue?',
-      text: 'you are about to send a message',
+      text: 'you are about to update Medication request...',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes',
@@ -14,17 +13,18 @@ $(document).ready(function(){
     }).then((result) => {
       if (result.value) {
         let formData = new FormData();
-        formData.append('name', $('#suggestion_name').val());
-        formData.append('email', $('#suggestion_email').val());
-        formData.append('message', $('#suggestion_message').val());
+        formData.append('type', '3');
+        formData.append('id', $(this).attr('data-id'));
+        formData.append('status', '1');
         $.ajax({
-          url: url+'message/create',
+          url: url+'medication/update',
           method: 'post',
           dataType: 'json',
           data: formData,
           processData: false,
           contentType: false,
           success: function(data){
+            console.log(data);
             if (data['res'] == 1) {
               Swal.fire({
                 title: data['message'],
@@ -35,12 +35,12 @@ $(document).ready(function(){
                 toast: true
               }).then((result) => {
                 if (result.dismiss === Swal.DismissReason.timer) {
-                  window.location = url;
+                  window.location.reload();
                 }
               });
             }else {
               Swal.fire({
-                title: "Failed to delete!",
+                title: "Failed to Update request!",
                 text: data['message'],
                 type: 'error'
               });
@@ -51,5 +51,7 @@ $(document).ready(function(){
       }
     });
   });
+
+
 
 });

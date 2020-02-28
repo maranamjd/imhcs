@@ -29,6 +29,15 @@
       }
     }
 
+    function special(){
+      $usertype = Session::get('user_type');
+      if ($usertype !== null) {
+        return false;
+      }else {
+        header('Location: '.URL);
+      }
+    }
+
     function doctor(){
       $usertype = Session::get('user_type');
       if ($usertype !== null) {

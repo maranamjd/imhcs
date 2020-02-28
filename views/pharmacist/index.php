@@ -13,7 +13,7 @@
 
   <!-- Main content -->
   <section class="content">
-      adfadf
+      dashboard
   </section>
 
 </div>

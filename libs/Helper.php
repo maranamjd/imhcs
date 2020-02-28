@@ -9,6 +9,20 @@
       return is_array($data) ? count($data) : 0;
     }
 
+    public function status($status){
+      switch ($status) {
+        case 0:
+          return "<button class='btn btn-warning btn-sm btn-flat'>Pending</button>";
+          break;
+        case 1:
+          return "<button class='btn btn-success btn-sm btn-flat'>Fulfilled</button>";
+          break;
+        case 2:
+          return "<button class='btn btn-secondary btn-sm btn-flat'>Cancelled</button>";
+          break;
+      }
+    }
+
     public function name_format($firstname, $lastname, $middlename = null, $middleinitial = false){
       $name = ucwords(strtolower($firstname)).' '.ucwords(strtolower($middlename)).' '.ucwords(strtolower($lastname));
       if ($middleinitial) {

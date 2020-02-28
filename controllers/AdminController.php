@@ -8,6 +8,7 @@
    require 'models/Patient.php';
    require 'models/Medicine.php';
    require 'models/Med_Category.php';
+   require 'models/Lab_Test.php';
 
   class AdminController extends Controller
   {
@@ -22,6 +23,7 @@
       $this->patient = new Patient();
       $this->medicine = new Medicine();
       $this->med_category = new Med_Category();
+      $this->lab_test = new Lab_Test();
       $this->user_id = $this->session->get('user_id');
       $this->view->info = $this->_get_info();
     }
@@ -88,6 +90,13 @@
       $this->view->data = $this->med_category->select(['*'], "active = 1");
 
       $this->view->render('admin/category', 'admin/inc');
+    }
+    public function lab(){
+      $this->view->js = ['admin/js/lab.js'];
+      $this->view->css = ['admin/css/default.css'];
+      $this->view->data = $this->lab_test->select(['*'], "active = 1");
+
+      $this->view->render('admin/lab_test', 'admin/inc');
     }
     public function report(){
       $this->view->js = ['admin/js/default.js'];

@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.9.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2020 at 12:32 AM
--- Server version: 10.1.16-MariaDB
--- PHP Version: 5.6.24
+-- Generation Time: Feb 28, 2020 at 05:53 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.2.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -36,11 +38,11 @@ CREATE TABLE `checkup` (
   `respiration_rate` varchar(16) DEFAULT NULL,
   `weight` varchar(16) DEFAULT NULL,
   `height` varchar(16) DEFAULT NULL,
-  `symptoms` text,
-  `diagnosis` text,
+  `symptoms` text DEFAULT NULL,
+  `diagnosis` text DEFAULT NULL,
   `date` datetime DEFAULT NULL,
-  `notes` text,
-  `active` smallint(1) NOT NULL DEFAULT '1'
+  `notes` text DEFAULT NULL,
+  `active` smallint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -58,6 +60,76 @@ INSERT INTO `checkup` (`checkup_id`, `patient_id`, `user_id`, `blood_pressure`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `laboratory_request`
+--
+
+CREATE TABLE `laboratory_request` (
+  `lab_req_id` int(11) NOT NULL,
+  `lab_id` int(11) NOT NULL,
+  `patient_id` varchar(15) CHARACTER SET latin1 NOT NULL,
+  `note` text NOT NULL,
+  `results` text DEFAULT NULL,
+  `status` smallint(1) NOT NULL DEFAULT 0,
+  `date_requested` datetime NOT NULL DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `laboratory_request`
+--
+
+INSERT INTO `laboratory_request` (`lab_req_id`, `lab_id`, `patient_id`, `note`, `results`, `status`, `date_requested`, `date_updated`) VALUES
+(1, 1, 'SCA931758264', 'baka may corona viruss', 'meron nga', 1, '2020-02-28 23:17:06', '2020-02-29 00:47:59'),
+(2, 1, 'LNT451289037', 'para malaman ang ugat ng kasamaan', NULL, 2, '2020-02-28 23:34:10', NULL),
+(3, 1, 'LNT451289037', 'dd', NULL, 0, '2020-02-28 23:44:54', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `laboratory_test`
+--
+
+CREATE TABLE `laboratory_test` (
+  `lab_id` int(11) NOT NULL,
+  `description` varchar(64) NOT NULL,
+  `active` smallint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `laboratory_test`
+--
+
+INSERT INTO `laboratory_test` (`lab_id`, `description`, `active`) VALUES
+(1, 'Blood Testing', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `medication`
+--
+
+CREATE TABLE `medication` (
+  `medication_id` int(11) NOT NULL,
+  `patient_id` varchar(15) CHARACTER SET latin1 NOT NULL,
+  `med_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `status` smallint(1) NOT NULL DEFAULT 0,
+  `date_requested` datetime NOT NULL DEFAULT current_timestamp(),
+  `date_updated` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `medication`
+--
+
+INSERT INTO `medication` (`medication_id`, `patient_id`, `med_id`, `quantity`, `status`, `date_requested`, `date_updated`) VALUES
+(1, 'LNT451289037', 3, 5, 1, '2020-02-28 18:34:18', '2020-02-29 00:33:53'),
+(2, 'SCA931758264', 3, 3, 2, '2020-02-28 18:45:47', NULL),
+(3, 'SCA931758264', 5, 1, 0, '2020-02-28 20:01:03', '2020-02-29 00:03:41');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `medicine`
 --
 
@@ -65,7 +137,7 @@ CREATE TABLE `medicine` (
   `med_id` int(11) NOT NULL,
   `name` varchar(150) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `active` smallint(1) NOT NULL DEFAULT '1'
+  `active` smallint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -87,7 +159,7 @@ INSERT INTO `medicine` (`med_id`, `name`, `category_id`, `active`) VALUES
 CREATE TABLE `med_category` (
   `category_id` int(11) NOT NULL,
   `description` varchar(32) NOT NULL,
-  `active` smallint(1) NOT NULL DEFAULT '1'
+  `active` smallint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -95,7 +167,7 @@ CREATE TABLE `med_category` (
 --
 
 INSERT INTO `med_category` (`category_id`, `description`, `active`) VALUES
-(1, 'Antibiotics', 1),
+(1, 'Antibiotics', 0),
 (2, 'Gamot sa adik', 1),
 (3, 'Gamot sa puso', 1),
 (4, 'Bags', 0);
@@ -116,7 +188,7 @@ CREATE TABLE `patient` (
   `birthdate` date NOT NULL,
   `contact_info` varchar(100) NOT NULL,
   `sex` smallint(1) NOT NULL,
-  `active` smallint(1) NOT NULL DEFAULT '1',
+  `active` smallint(1) NOT NULL DEFAULT 1,
   `created_on` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -141,7 +213,7 @@ CREATE TABLE `prescription` (
   `no_days` int(64) DEFAULT NULL,
   `intake_schedule` varchar(5) DEFAULT NULL,
   `before_meal` int(1) DEFAULT NULL,
-  `active` smallint(1) NOT NULL DEFAULT '1'
+  `active` smallint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -153,7 +225,8 @@ INSERT INTO `prescription` (`id`, `checkup_id`, `med_id`, `no_days`, `intake_sch
 (2, 4, 4, 3, '1-0-1', 0, 1),
 (3, 6, 4, 7, '1-1-1', 1, 1),
 (4, 4, 5, 1, '1-0-0', 1, 1),
-(5, 4, 3, 1, '1-1-1', 0, 1);
+(5, 4, 3, 1, '1-1-1', 0, 1),
+(6, 3, 4, 7, '1-1-1', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -167,8 +240,8 @@ CREATE TABLE `user` (
   `email` varchar(32) NOT NULL,
   `password` varchar(128) NOT NULL,
   `user_type` int(11) DEFAULT NULL,
-  `active` smallint(1) NOT NULL DEFAULT '1',
-  `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `active` smallint(1) NOT NULL DEFAULT 1,
+  `created_on` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -176,13 +249,14 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `image`, `email`, `password`, `user_type`, `active`, `created_on`) VALUES
-('DYE473869250', 'unknown.png', 'nurse@nurse.com', 'lPWZEGBpHaPzemqv5y3yjP0nWIhj7MGwtcDhz4NTuRY=', 2, 1, '2019-12-28 15:26:22'),
-('FDH342960817', 'unknown.png', 'doctor@doctor.com', 'lPWZEGBpHaPzemqv5y3yjP0nWIhj7MGwtcDhz4NTuRY=', 1, 1, '2020-01-01 00:00:00'),
-('HDB264370589', 'unknown.png', 'quack@doctor.com', '884g7GMGaRs4I7K6JeBaXg0Siq3MEvFs3qmzHeG48Ok=', 1, 1, '2020-01-04 11:42:43'),
-('JIE625973480', 'unknown.png', 'laboratorist@laboratorist.com', 'lPWZEGBpHaPzemqv5y3yjP0nWIhj7MGwtcDhz4NTuRY=', 3, 1, '2019-12-28 15:27:06'),
-('JMH501243798', 'unknown.png', 'pharmacist@pharmacist.com', 'lPWZEGBpHaPzemqv5y3yjP0nWIhj7MGwtcDhz4NTuRY=', 4, 1, '2019-12-28 15:27:46'),
-('URL283051674', 'unknown.png', 'admin@admin.com', 'lPWZEGBpHaPzemqv5y3yjP0nWIhj7MGwtcDhz4NTuRY=', 5, 1, '2019-12-28 15:29:08'),
-('WVA618742593', 'unknown.png', 'parma@email.com', 'Z/9J1A1TRcYWahvlzTZIIN7c0AmvNcideu17Yq6HGcU=', 4, 1, '2020-01-04 11:48:57');
+('DYE473869250', 'unknown.png', 'nurse@nurse.com', 'ZEV0bzhaemF2L1ZTWnVOTVVzY210QT09Ojq6FBQ9YfV3ej0DxE9KZaYj', 2, 1, '2019-12-28 15:26:22'),
+('FDH342960817', 'unknown.png', 'doctor@doctor.com', 'ZEV0bzhaemF2L1ZTWnVOTVVzY210QT09Ojq6FBQ9YfV3ej0DxE9KZaYj', 1, 1, '2020-01-01 00:00:00'),
+('HDB264370589', 'unknown.png', 'quack@doctor.com', 'ZEV0bzhaemF2L1ZTWnVOTVVzY210QT09Ojq6FBQ9YfV3ej0DxE9KZaYj', 1, 1, '2020-01-04 11:42:43'),
+('JIE625973480', 'unknown.png', 'laboratorist@laboratorist.com', 'ZEV0bzhaemF2L1ZTWnVOTVVzY210QT09Ojq6FBQ9YfV3ej0DxE9KZaYj', 3, 1, '2019-12-28 15:27:06'),
+('JMH501243798', 'unknown.png', 'pharmacist@pharmacist.com', 'ZEV0bzhaemF2L1ZTWnVOTVVzY210QT09Ojq6FBQ9YfV3ej0DxE9KZaYj', 4, 1, '2019-12-28 15:27:46'),
+('QOG345069182', 'unknown.png', 'esme@gmail.com', 'ZGNrdHJFRUJYbUJ6UHVSUmZnVmxwZz09OjqvOcSp6ZHOv7/JTC+d38PW', 2, 1, '2020-02-04 21:21:09'),
+('URL283051674', 'unknown.png', 'admin@admin.com', 'ZEV0bzhaemF2L1ZTWnVOTVVzY210QT09Ojq6FBQ9YfV3ej0DxE9KZaYj', 5, 1, '2019-12-28 15:29:08'),
+('WVA618742593', 'unknown.png', 'parma@email.com', 'ZEV0bzhaemF2L1ZTWnVOTVVzY210QT09Ojq6FBQ9YfV3ej0DxE9KZaYj', 4, 1, '2020-01-04 11:48:57');
 
 -- --------------------------------------------------------
 
@@ -213,7 +287,8 @@ INSERT INTO `user_details` (`id`, `user_id`, `firstname`, `middlename`, `lastnam
 (4, 'JMH501243798', 'Hazel Joy', 'Garcia', 'Hernandez', 'Bulacan', '1996-01-14', '09347343624', 2),
 (5, 'URL283051674', 'Lito', NULL, 'Lapid', 'mansion', '1986-04-23', '09572657834', 1),
 (6, 'HDB264370589', 'Doctor', 'Quack', 'Quack', 'pond', '2000-06-07', '09336283513', 1),
-(7, 'WVA618742593', 'parma', NULL, 'parmaa', 'clinic', '1996-06-04', '09572636432', 2);
+(7, 'WVA618742593', 'parma', NULL, 'parmaa', 'clinic', '1996-06-04', '09572636432', 2),
+(8, 'QOG345069182', 'Esmeralda', 'Capitulo', 'Pangilinan', 'Taguig', '1993-06-10', '09264738271', 2);
 
 --
 -- Indexes for dumped tables
@@ -226,6 +301,28 @@ ALTER TABLE `checkup`
   ADD PRIMARY KEY (`checkup_id`),
   ADD KEY `patient_id` (`patient_id`),
   ADD KEY `employee_id` (`user_id`);
+
+--
+-- Indexes for table `laboratory_request`
+--
+ALTER TABLE `laboratory_request`
+  ADD PRIMARY KEY (`lab_req_id`),
+  ADD KEY `patient_ibfk_3` (`patient_id`),
+  ADD KEY `lab_test_ibfk` (`lab_id`);
+
+--
+-- Indexes for table `laboratory_test`
+--
+ALTER TABLE `laboratory_test`
+  ADD PRIMARY KEY (`lab_id`);
+
+--
+-- Indexes for table `medication`
+--
+ALTER TABLE `medication`
+  ADD PRIMARY KEY (`medication_id`),
+  ADD KEY `patient_ibfk_2` (`patient_id`),
+  ADD KEY `med_ibfk_2` (`med_id`);
 
 --
 -- Indexes for table `medicine`
@@ -277,31 +374,55 @@ ALTER TABLE `user_details`
 --
 ALTER TABLE `checkup`
   MODIFY `checkup_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `laboratory_request`
+--
+ALTER TABLE `laboratory_request`
+  MODIFY `lab_req_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `laboratory_test`
+--
+ALTER TABLE `laboratory_test`
+  MODIFY `lab_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `medication`
+--
+ALTER TABLE `medication`
+  MODIFY `medication_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `medicine`
 --
 ALTER TABLE `medicine`
   MODIFY `med_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
 -- AUTO_INCREMENT for table `med_category`
 --
 ALTER TABLE `med_category`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
 -- AUTO_INCREMENT for table `prescription`
 --
 ALTER TABLE `prescription`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
 -- AUTO_INCREMENT for table `user_details`
 --
 ALTER TABLE `user_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
 --
 -- Constraints for dumped tables
 --
@@ -312,6 +433,20 @@ ALTER TABLE `user_details`
 ALTER TABLE `checkup`
   ADD CONSTRAINT `patient_ibfk` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`),
   ADD CONSTRAINT `user_id_ibfk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+
+--
+-- Constraints for table `laboratory_request`
+--
+ALTER TABLE `laboratory_request`
+  ADD CONSTRAINT `lab_test_ibfk` FOREIGN KEY (`lab_id`) REFERENCES `laboratory_test` (`lab_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `patient_ibfk_3` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `medication`
+--
+ALTER TABLE `medication`
+  ADD CONSTRAINT `med_ibfk_2` FOREIGN KEY (`med_id`) REFERENCES `medicine` (`med_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `patient_ibfk_2` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `medicine`
@@ -331,6 +466,7 @@ ALTER TABLE `prescription`
 --
 ALTER TABLE `user_details`
   ADD CONSTRAINT `user_ibfk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

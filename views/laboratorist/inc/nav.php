@@ -61,8 +61,8 @@
 
         <ul class="sidebar-menu" data-widget="tree">
 
-          <li class="<?php echo ($this->page == "index") ? 'active' : '' ?>"><a href="<?php echo URL ?>doctor"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-          <li class="<?php echo ($this->page == "patient") ? 'active' : '' ?>"><a href="<?php echo URL ?>doctor/patient"><i class="fa fa-wheelchair"></i> <span>Patient</span></a></li>
+          <li class="<?php echo ($this->page == "index") ? 'active' : '' ?>"><a href="<?php echo URL ?>laboratorist"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+          <li class="<?php echo ($this->page == "laboratory") ? 'active' : '' ?>"><a href="<?php echo URL ?>laboratorist/laboratory"><i class="fa fa-wheelchair"></i> <span>Laboratory Test</span></a></li>
 
         </ul>
       </section>

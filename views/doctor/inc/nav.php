@@ -63,6 +63,11 @@
 
           <li class="<?php echo ($this->page == "index") ? 'active' : '' ?>"><a href="<?php echo URL ?>doctor"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
           <li class="<?php echo ($this->page == "patient") ? 'active' : '' ?>"><a href="<?php echo URL ?>doctor/patient"><i class="fa fa-wheelchair"></i> <span>Patient</span></a></li>
+          <li class="<?php echo ($this->page == "medication") ? 'active' : '' ?>"><a href="<?php echo URL ?>doctor/medication"><i class="fa fa-tablet"></i> <span>Medication</span></a></li>
+          <li class="<?php echo ($this->page == "laboratory") ? 'active' : '' ?>"><a href="<?php echo URL ?>doctor/laboratory"><i class="fa fa-flask"></i> <span>Laboratory</span></a></li>
+          <li class="<?php echo ($this->page == "vaccine") ? 'active' : '' ?>"><a href="<?php echo URL ?>doctor/vaccine"><i class="fa fa-medkit"></i> <span>Vaccine</span></a></li>
+          <li class="<?php echo ($this->page == "referral") ? 'active' : '' ?>"><a href="<?php echo URL ?>doctor/referral"><i class="fa fa-medkit"></i> <span>Referral</span></a></li>
+          <li class="<?php echo ($this->page == "report") ? 'active' : '' ?>"><a href="<?php echo URL ?>doctor/report"><i class="fa fa-file"></i> <span>Report</span></a></li>
 
         </ul>
       </section>
