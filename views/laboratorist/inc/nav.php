@@ -62,8 +62,19 @@
         <ul class="sidebar-menu" data-widget="tree">
 
           <li class="<?php echo ($this->page == "index") ? 'active' : '' ?>"><a href="<?php echo URL ?>laboratorist"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-          <li class="<?php echo ($this->page == "laboratory") ? 'active' : '' ?>"><a href="<?php echo URL ?>laboratorist/laboratory"><i class="fa fa-wheelchair"></i> <span>Laboratory Test</span></a></li>
-
+          <li class="treeview <?php echo ($this->page == "requested" || $this->page == "completed") ? 'active' : '' ?>">
+           <a href="#">
+             <i class="fa fa-flask"></i>
+             <span>Laboratory Requests</span>
+             <span class="pull-right-container">
+               <i class="fa fa-angle-left pull-right"></i>
+             </span>
+           </a>
+           <ul class="treeview-menu">
+             <li class="<?php echo ($this->page == "requested") ? 'active' : '' ?>"><a href="<?php echo URL ?>laboratorist/requested"><i class="fa fa-list"></i> Requested</a></li>
+             <li class="<?php echo ($this->page == "completed") ? 'active' : '' ?>"><a href="<?php echo URL ?>laboratorist/completed"><i class="fa fa-check"></i> Completed</a></li>
+           </ul>
+          </li>
         </ul>
       </section>
 

@@ -17,6 +17,7 @@
 
     public function create(){
       $this->lab_request->columns = [
+        'user_id' => Session::get('user_id'),
         'lab_id' => $_POST['lab_id'],
         'patient_id' => $_POST['patient_id'],
         'note' => $_POST['note']

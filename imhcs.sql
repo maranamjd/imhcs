@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2020 at 05:53 PM
+-- Generation Time: Mar 06, 2020 at 05:37 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.26
 
@@ -65,6 +65,7 @@ INSERT INTO `checkup` (`checkup_id`, `patient_id`, `user_id`, `blood_pressure`, 
 
 CREATE TABLE `laboratory_request` (
   `lab_req_id` int(11) NOT NULL,
+  `user_id` varchar(15) CHARACTER SET latin1 NOT NULL,
   `lab_id` int(11) NOT NULL,
   `patient_id` varchar(15) CHARACTER SET latin1 NOT NULL,
   `note` text NOT NULL,
@@ -78,10 +79,12 @@ CREATE TABLE `laboratory_request` (
 -- Dumping data for table `laboratory_request`
 --
 
-INSERT INTO `laboratory_request` (`lab_req_id`, `lab_id`, `patient_id`, `note`, `results`, `status`, `date_requested`, `date_updated`) VALUES
-(1, 1, 'SCA931758264', 'baka may corona viruss', 'meron nga', 1, '2020-02-28 23:17:06', '2020-02-29 00:47:59'),
-(2, 1, 'LNT451289037', 'para malaman ang ugat ng kasamaan', NULL, 2, '2020-02-28 23:34:10', NULL),
-(3, 1, 'LNT451289037', 'dd', NULL, 0, '2020-02-28 23:44:54', NULL);
+INSERT INTO `laboratory_request` (`lab_req_id`, `user_id`, `lab_id`, `patient_id`, `note`, `results`, `status`, `date_requested`, `date_updated`) VALUES
+(1, 'FDH342960817', 1, 'SCA931758264', 'baka may corona viruss', 'meron nga', 1, '2020-02-28 23:17:06', '2020-02-29 00:47:59'),
+(2, 'FDH342960817', 1, 'LNT451289037', 'para malaman ang ugat ng kasamaan', NULL, 2, '2020-02-28 23:34:10', NULL),
+(3, 'FDH342960817', 1, 'LNT451289037', 'dd', NULL, 0, '2020-02-28 23:44:54', NULL),
+(4, 'FDH342960817', 1, 'LNT451289037', 'dfs', NULL, 0, '2020-03-06 20:45:03', NULL),
+(7, 'FDH342960817', 1, 'SCA931758264', 'a', NULL, 2, '2020-03-06 22:45:31', NULL);
 
 -- --------------------------------------------------------
 
@@ -110,6 +113,7 @@ INSERT INTO `laboratory_test` (`lab_id`, `description`, `active`) VALUES
 
 CREATE TABLE `medication` (
   `medication_id` int(11) NOT NULL,
+  `user_id` varchar(15) CHARACTER SET latin1 NOT NULL,
   `patient_id` varchar(15) CHARACTER SET latin1 NOT NULL,
   `med_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
@@ -122,10 +126,13 @@ CREATE TABLE `medication` (
 -- Dumping data for table `medication`
 --
 
-INSERT INTO `medication` (`medication_id`, `patient_id`, `med_id`, `quantity`, `status`, `date_requested`, `date_updated`) VALUES
-(1, 'LNT451289037', 3, 5, 1, '2020-02-28 18:34:18', '2020-02-29 00:33:53'),
-(2, 'SCA931758264', 3, 3, 2, '2020-02-28 18:45:47', NULL),
-(3, 'SCA931758264', 5, 1, 0, '2020-02-28 20:01:03', '2020-02-29 00:03:41');
+INSERT INTO `medication` (`medication_id`, `user_id`, `patient_id`, `med_id`, `quantity`, `status`, `date_requested`, `date_updated`) VALUES
+(1, 'FDH342960817', 'LNT451289037', 3, 5, 1, '2020-02-28 18:34:18', '2020-02-29 00:33:53'),
+(2, 'FDH342960817', 'SCA931758264', 3, 3, 2, '2020-02-28 18:45:47', NULL),
+(3, 'FDH342960817', 'SCA931758264', 5, 1, 1, '2020-02-28 20:01:03', '2020-03-06 20:52:29'),
+(4, 'FDH342960817', 'LNT451289037', 3, 10, 0, '2020-03-06 20:44:26', NULL),
+(5, 'FDH342960817', 'SCA931758264', 4, 1, 2, '2020-03-06 21:05:41', NULL),
+(6, 'FDH342960817', 'SCA931758264', 3, 2, 0, '2020-03-07 00:36:22', NULL);
 
 -- --------------------------------------------------------
 
@@ -308,7 +315,8 @@ ALTER TABLE `checkup`
 ALTER TABLE `laboratory_request`
   ADD PRIMARY KEY (`lab_req_id`),
   ADD KEY `patient_ibfk_3` (`patient_id`),
-  ADD KEY `lab_test_ibfk` (`lab_id`);
+  ADD KEY `lab_test_ibfk` (`lab_id`),
+  ADD KEY `user_ibfk_5` (`user_id`);
 
 --
 -- Indexes for table `laboratory_test`
@@ -322,7 +330,8 @@ ALTER TABLE `laboratory_test`
 ALTER TABLE `medication`
   ADD PRIMARY KEY (`medication_id`),
   ADD KEY `patient_ibfk_2` (`patient_id`),
-  ADD KEY `med_ibfk_2` (`med_id`);
+  ADD KEY `med_ibfk_2` (`med_id`),
+  ADD KEY `user_ibfk_4` (`user_id`);
 
 --
 -- Indexes for table `medicine`
@@ -379,7 +388,7 @@ ALTER TABLE `checkup`
 -- AUTO_INCREMENT for table `laboratory_request`
 --
 ALTER TABLE `laboratory_request`
-  MODIFY `lab_req_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `lab_req_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `laboratory_test`
@@ -391,7 +400,7 @@ ALTER TABLE `laboratory_test`
 -- AUTO_INCREMENT for table `medication`
 --
 ALTER TABLE `medication`
-  MODIFY `medication_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `medication_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `medicine`
@@ -439,14 +448,16 @@ ALTER TABLE `checkup`
 --
 ALTER TABLE `laboratory_request`
   ADD CONSTRAINT `lab_test_ibfk` FOREIGN KEY (`lab_id`) REFERENCES `laboratory_test` (`lab_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `patient_ibfk_3` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `patient_ibfk_3` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_ibfk_5` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `medication`
 --
 ALTER TABLE `medication`
   ADD CONSTRAINT `med_ibfk_2` FOREIGN KEY (`med_id`) REFERENCES `medicine` (`med_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `patient_ibfk_2` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `patient_ibfk_2` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `medicine`

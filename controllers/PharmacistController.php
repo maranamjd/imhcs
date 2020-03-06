@@ -32,11 +32,11 @@
       //render page
       $this->view->render('pharmacist/index', 'pharmacist/inc');
     }
-    public function medication(){
+    public function requested(){
       $this->view->js = ['pharmacist/js/medication.js'];
       $this->view->css = ['pharmacist/css/default.css'];
 
-      $medications = $this->medication->join('patient', 'patient_id', "1");
+      $medications = $this->medication->join('patient', 'patient_id', "status = 0");
       foreach ($medications as $key => $medication) {
         $id = $medication['med_id'];
         $medications[$key]['medicine'] = $this->medicine->select(["name"], "active = 1 AND med_id = $id")[0]['name'];
@@ -44,7 +44,22 @@
       $this->view->data = $medications;
       $this->view->medicines = $this->medicine->select(['*'], "active = 1");
 
-      $this->view->render('pharmacist/medication', 'pharmacist/inc');
+      $this->view->render('pharmacist/requested', 'pharmacist/inc');
+    }
+
+    public function completed(){
+      $this->view->js = ['pharmacist/js/medication.js'];
+      $this->view->css = ['pharmacist/css/default.css'];
+
+      $medications = $this->medication->join('patient', 'patient_id', "status = 1");
+      foreach ($medications as $key => $medication) {
+        $id = $medication['med_id'];
+        $medications[$key]['medicine'] = $this->medicine->select(["name"], "active = 1 AND med_id = $id")[0]['name'];
+      }
+      $this->view->data = $medications;
+      $this->view->medicines = $this->medicine->select(['*'], "active = 1");
+
+      $this->view->render('pharmacist/completed', 'pharmacist/inc');
     }
 
   }

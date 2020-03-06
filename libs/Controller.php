@@ -12,7 +12,6 @@
       $this->view = new View();
       $this->helper = new Helper();
       $this->session = new Session();
-      $this->report = new Report();
       $this->hash = new Hash();
       $this->auth = new Auth();
     }

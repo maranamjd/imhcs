@@ -62,8 +62,19 @@
         <ul class="sidebar-menu" data-widget="tree">
 
           <li class="<?php echo ($this->page == "index") ? 'active' : '' ?>"><a href="<?php echo URL ?>pharmacist"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-          <li class="<?php echo ($this->page == "medication") ? 'active' : '' ?>"><a href="<?php echo URL ?>pharmacist/medication"><i class="fa fa-wheelchair"></i> <span>Medication Request</span></a></li>
-
+          <li class="treeview <?php echo ($this->page == "requested" || $this->page == "completed") ? 'active' : '' ?>">
+           <a href="#">
+             <i class="fa fa-tablet"></i>
+             <span>Medication Requests</span>
+             <span class="pull-right-container">
+               <i class="fa fa-angle-left pull-right"></i>
+             </span>
+           </a>
+           <ul class="treeview-menu">
+             <li class="<?php echo ($this->page == "requested") ? 'active' : '' ?>"><a href="<?php echo URL ?>pharmacist/requested"><i class="fa fa-list"></i> Requested</a></li>
+             <li class="<?php echo ($this->page == "completed") ? 'active' : '' ?>"><a href="<?php echo URL ?>pharmacist/completed"><i class="fa fa-check"></i> Completed</a></li>
+           </ul>
+          </li>
         </ul>
       </section>
 

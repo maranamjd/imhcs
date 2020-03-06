@@ -62,6 +62,23 @@
       $this->view->render('doctor/patient', 'doctor/inc');
     }
 
+    public function history($id){
+      $this->view->js = ['doctor/js/history.js'];
+      $this->view->css = ['doctor/css/default.css'];
+
+      $this->view->patient = $this->patient->select(['*'], "patient_id = '$id'")[0];
+      $result =  $this->checkup->select(['user_id', 'date', 'diagnosis'], "active = 1 AND patient_id = '$id' ORDER BY date DESC");
+      foreach ($result as $key => $checkup) {
+        $user_id = $checkup['user_id'];
+        $result[$key]['doctor'] = $this->user_details->select(['firstname', 'middlename', 'lastname'], "user_id = '$user_id'")[0];
+      }
+      $this->view->checkups = $result;
+      $this->view->medications =  $this->medication->join('medicine', 'med_id', "medication.patient_id = '$id' ORDER BY date_requested DESC");
+      $this->view->laboratories =  $this->lab_request->join('laboratory_test', 'lab_id', "laboratory_request.patient_id = '$id' ORDER BY date_requested DESC");
+
+      $this->view->render('doctor/history', 'doctor/inc');
+    }
+
     public function checkup($id){
       $this->view->js = ['doctor/js/checkup.js'];
       $this->view->css = ['doctor/css/default.css'];
@@ -78,6 +95,37 @@
       $this->view->medicines = $this->medicine->select(['*'], "active = 1");
 
       $this->view->render('doctor/checkup', 'doctor/inc');
+    }
+
+    public function medications($id){
+      $this->view->js = ['doctor/js/medications.js'];
+      $this->view->css = ['doctor/css/default.css'];
+
+      $this->view->patient = $this->patient->select(['*'], "patient_id = '$id'")[0];
+      $result =  $this->medication->join('medicine', 'med_id', "medication.patient_id = '$id' ORDER BY date_requested DESC");
+      foreach ($result as $key => $medication) {
+        $user_id = $medication['user_id'];
+        $result[$key]['doctor'] = $this->user_details->select(['firstname', 'middlename', 'lastname'], "user_id = '$user_id'")[0];
+      }
+      $this->view->medicines = $this->medicine->select(['*'], "active = 1");
+      $this->view->medications = $result;
+      $this->view->render('doctor/medications', 'doctor/inc');
+    }
+
+    public function labs($id){
+      $this->view->js = ['doctor/js/labs.js'];
+      $this->view->css = ['doctor/css/default.css'];
+
+      $this->view->patient = $this->patient->select(['*'], "patient_id = '$id'")[0];
+      $result = $this->lab_request->join('laboratory_test', 'lab_id', "laboratory_request.patient_id = '$id' ORDER BY date_requested DESC");
+      foreach ($result as $key => $request) {
+        $user_id = $request['user_id'];
+        $result[$key]['doctor'] = $this->user_details->select(['firstname', 'middlename', 'lastname'], "user_id = '$user_id'")[0];
+      }
+      $this->view->laboratories = $result;
+      $this->view->lab_tests = $this->lab_test->select(['*'], "active = 1");
+
+      $this->view->render('doctor/labs', 'doctor/inc');
     }
 
     public function medication(){

@@ -19,6 +19,7 @@
     public function create(){
       $this->medication->columns = [
         'medication_id' => null,
+        'user_id' => Session::get('user_id'),
         'patient_id' => $_POST['patient_id'],
         'med_id' => $_POST['med_id'],
         'quantity' => $_POST['quantity']

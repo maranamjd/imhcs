@@ -10,6 +10,14 @@
 </section>
 <!-- Main content -->
 <section class="content">
+  <div style="margin-bottom: 1em;">
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation"><a href="<?php echo URL ?>doctor/history/<?php echo $this->patient['patient_id'] ?>" aria-controls="History">History</a></li>
+      <li role="presentation" class="active"><a href="<?php echo URL ?>doctor/checkup/<?php echo $this->patient['patient_id'] ?>" aria-controls="Checkups">Checkups</a></li>
+      <li role="presentation"><a href="<?php echo URL ?>doctor/medications/<?php echo $this->patient['patient_id'] ?>" aria-controls="Medications">Medications</a></li>
+      <li role="presentation"><a href="<?php echo URL ?>doctor/labs/<?php echo $this->patient['patient_id'] ?>" aria-controls="Labs">Labs</a></li>
+    </ul>
+  </div>
   <div class="row">
     <div class="col-md-3">
       <div class="box box-primary">
@@ -127,7 +135,7 @@
 
       <div class="box box-primary" id="history">
         <div class="box-header with-border">
-          <h3 class="box-title">Checkup History</h3>
+          <h3 class="box-title">Checkup</h3>
           <span title="New Checkup" class="btn btn-primary pull-right btn-sm" id="new"><i class="fa fa-plus"></i> New Checkup</span>
         </div>
         <div class="box-body">
@@ -208,7 +216,10 @@
                             <div class="timeline-item">
                               <h3 class="timeline-header">
                                 <a>Prescription</a>
-                                <span title="New Checkup" class="btn btn-primary pull-right btn-sm" data-id="<?php echo $checkup['checkup_id'] ?>" id="new_prescription"><i class="fa fa-plus"></i></span>
+                                <a href="<?php echo URL ?>downloads/prescription/<?php echo $checkup['checkup_id'] ?>" target="_blank">
+                                  <span title="Print Prescription" class="btn btn-danger pull-right btn-sm"><i class="fa fa-file"></i></span>
+                                </a>
+                                <span title="New Prescription" class="btn btn-primary pull-right btn-sm" data-id="<?php echo $checkup['checkup_id'] ?>" id="new_prescription"><i class="fa fa-plus"></i></span>
                               </h3>
                               <div class="timeline-body">
                                 <table class="table">

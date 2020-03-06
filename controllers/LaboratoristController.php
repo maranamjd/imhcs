@@ -33,11 +33,11 @@
       $this->view->render('laboratorist/index', 'laboratorist/inc');
     }
 
-    public function laboratory(){
+    public function requested(){
       $this->view->js = ['laboratorist/js/laboratory.js'];
       $this->view->css = ['laboratorist/css/default.css'];
 
-      $requests = $this->lab_request->join('patient', 'patient_id', "1");
+      $requests = $this->lab_request->join('patient', 'patient_id', "status = 0");
       foreach ($requests as $key => $request) {
         $id = $request['lab_id'];
         $requests[$key]['laboratory'] = $this->lab_test->select(["description"], "active = 1 AND lab_id = $id")[0]['description'];
@@ -45,7 +45,22 @@
       $this->view->data = $requests;
       $this->view->lab_tests = $this->lab_test->select(['*'], "active = 1");
 
-      $this->view->render('laboratorist/laboratory', 'laboratorist/inc');
+      $this->view->render('laboratorist/requested', 'laboratorist/inc');
+    }
+
+    public function completed(){
+      $this->view->js = ['laboratorist/js/laboratory.js'];
+      $this->view->css = ['laboratorist/css/default.css'];
+
+      $requests = $this->lab_request->join('patient', 'patient_id', "status = 1");
+      foreach ($requests as $key => $request) {
+        $id = $request['lab_id'];
+        $requests[$key]['laboratory'] = $this->lab_test->select(["description"], "active = 1 AND lab_id = $id")[0]['description'];
+      }
+      $this->view->data = $requests;
+      $this->view->lab_tests = $this->lab_test->select(['*'], "active = 1");
+
+      $this->view->render('laboratorist/completed', 'laboratorist/inc');
     }
 
   }

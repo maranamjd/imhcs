@@ -36,7 +36,7 @@
                     <td><?php echo $patient['contact_info']?></td>
                     <td><?php echo date('M d, Y', strtotime($patient['created_on'])) ?></td>
                     <td style="width: 5%;" class="text-center">
-                      <a href="<?php echo URL ?>doctor/checkup/<?php echo $patient['patient_id']; ?>" title="Click to view detail"><i class="fa fa-bars"></i></a>
+                      <a href="<?php echo URL ?>doctor/history/<?php echo $patient['patient_id']; ?>" title="Click to view detail"><i class="fa fa-bars"></i></a>
                     </td>
                     <td>
                       <button class="btn btn-success btn-sm edit btn-flat" data-id="<?php echo $patient['id']; ?>" id="edit"><i class="fa fa-edit"></i></button>
