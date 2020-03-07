@@ -54,7 +54,7 @@
     </div>
     <div class="col-lg-4 hidden" id="secondary_content">
       <h3>
-        Patient Details
+        Request Details
         <button type="button" class="btn btn-flat pull-right" aria-label="Close" title="Close" id="close"><span aria-hidden="true">&times;</span></button>
       </h3>
       <form class="form-horizontal" id="lab_form" enctype="multipart/form-data">
@@ -70,7 +70,7 @@
 
         <div class="form-group">
           <div class="col-lg-12">
-            <label for="medicine" class="control-label">Medicine</label>
+            <label for="medicine" class="control-label">Laboratory Type</label>
             <select class="form-control" name="medicine" id="laboratory" required>
               <option value="" selected>- Select -</option>
               <?php if (count($this->lab_tests) > 0): ?>
