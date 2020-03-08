@@ -9,6 +9,7 @@
    require 'models/Medicine.php';
    require 'models/Med_Category.php';
    require 'models/Lab_Test.php';
+   require 'models/Vaccine.php';
 
   class AdminController extends Controller
   {
@@ -24,6 +25,7 @@
       $this->medicine = new Medicine();
       $this->med_category = new Med_Category();
       $this->lab_test = new Lab_Test();
+      $this->vaccine = new Vaccine();
       $this->user_id = $this->session->get('user_id');
       $this->view->info = $this->_get_info();
     }
@@ -109,6 +111,14 @@
       $this->view->css = ['admin/css/default.css'];
 
       $this->view->render('admin/configuration', 'admin/inc');
+    }
+
+    public function vaccine(){
+      $this->view->js = ['admin/js/vaccine.js'];
+      $this->view->css = ['admin/css/default.css'];
+      $this->view->data = $this->vaccine->select(['*'], "active = 1");
+
+      $this->view->render('admin/vaccine', 'admin/inc');
     }
 
   }

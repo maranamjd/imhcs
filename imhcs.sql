@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2020 at 05:37 PM
+-- Generation Time: Mar 08, 2020 at 02:35 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.26
 
@@ -56,6 +56,34 @@ INSERT INTO `checkup` (`checkup_id`, `patient_id`, `user_id`, `blood_pressure`, 
 (4, 'SCA931758264', 'FDH342960817', '80/110', '34', '82/90', '12/20', '45', '162', 'Nagtatae', 'LBM', '2020-01-05 00:00:00', 'Drink lots of water', 1),
 (5, 'LNT451289037', 'FDH342960817', '100/120', '37', '86/90', '8/20', 'undefined', '173', NULL, NULL, '2020-01-05 00:00:00', NULL, 0),
 (6, 'SCA931758264', 'FDH342960817', '80/110', '33', '82/90', '8/20', '54', '162', 'adf', 'adsf', '2020-01-05 00:00:00', 'asdf', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `immunization_record`
+--
+
+CREATE TABLE `immunization_record` (
+  `immunization_record_id` int(11) NOT NULL,
+  `child_name` varchar(64) NOT NULL,
+  `mother_name` varchar(64) NOT NULL,
+  `father_name` varchar(64) NOT NULL,
+  `birthdate` date NOT NULL,
+  `birthplace` varchar(64) NOT NULL,
+  `birth_height` varchar(64) NOT NULL,
+  `birth_weight` varchar(64) NOT NULL,
+  `sex` smallint(1) NOT NULL,
+  `address` varchar(128) NOT NULL,
+  `created_on` datetime NOT NULL DEFAULT current_timestamp(),
+  `active` smallint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `immunization_record`
+--
+
+INSERT INTO `immunization_record` (`immunization_record_id`, `child_name`, `mother_name`, `father_name`, `birthdate`, `birthplace`, `birth_height`, `birth_weight`, `sex`, `address`, `created_on`, `active`) VALUES
+(1, 'Michael Joshua Marana', 'Marissa Marana', 'Fernando Marana', '2020-02-05', 'Camarines Norte', '130', '6', 1, 'Pampanga', '2020-03-08 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -130,7 +158,7 @@ INSERT INTO `medication` (`medication_id`, `user_id`, `patient_id`, `med_id`, `q
 (1, 'FDH342960817', 'LNT451289037', 3, 5, 1, '2020-02-28 18:34:18', '2020-02-29 00:33:53'),
 (2, 'FDH342960817', 'SCA931758264', 3, 3, 2, '2020-02-28 18:45:47', NULL),
 (3, 'FDH342960817', 'SCA931758264', 5, 1, 1, '2020-02-28 20:01:03', '2020-03-06 20:52:29'),
-(4, 'FDH342960817', 'LNT451289037', 3, 10, 0, '2020-03-06 20:44:26', NULL),
+(4, 'FDH342960817', 'LNT451289037', 3, 10, 2, '2020-03-06 20:44:26', NULL),
 (5, 'FDH342960817', 'SCA931758264', 4, 1, 2, '2020-03-06 21:05:41', NULL),
 (6, 'FDH342960817', 'SCA931758264', 3, 2, 0, '2020-03-07 00:36:22', NULL);
 
@@ -297,6 +325,57 @@ INSERT INTO `user_details` (`id`, `user_id`, `firstname`, `middlename`, `lastnam
 (7, 'WVA618742593', 'parma', NULL, 'parmaa', 'clinic', '1996-06-04', '09572636432', 2),
 (8, 'QOG345069182', 'Esmeralda', 'Capitulo', 'Pangilinan', 'Taguig', '1993-06-10', '09264738271', 2);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vaccination`
+--
+
+CREATE TABLE `vaccination` (
+  `vaccination_id` int(11) NOT NULL,
+  `immunization_record_id` int(11) NOT NULL,
+  `vaccine_id` int(11) NOT NULL,
+  `user_id` varchar(15) CHARACTER SET latin1 NOT NULL,
+  `doses` varchar(32) NOT NULL,
+  `date` date NOT NULL,
+  `remarks` text NOT NULL,
+  `active` smallint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `vaccination`
+--
+
+INSERT INTO `vaccination` (`vaccination_id`, `immunization_record_id`, `vaccine_id`, `user_id`, `doses`, `date`, `remarks`, `active`) VALUES
+(3, 1, 1, 'DYE473869250', '1', '2020-03-08', 'next on March 15, 2020', 1),
+(4, 1, 1, 'FDH342960817', '1', '2020-03-08', 'asdf', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vaccine`
+--
+
+CREATE TABLE `vaccine` (
+  `vaccine_id` int(11) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `active` smallint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `vaccine`
+--
+
+INSERT INTO `vaccine` (`vaccine_id`, `name`, `active`) VALUES
+(1, 'BCG', 1),
+(2, 'Hepatitis B', 1),
+(3, 'Pentavalent Vaccine', 1),
+(4, 'Oral Polio Vaccine', 1),
+(5, 'Inactivated Polio Vaccine', 1),
+(6, 'Pneumococcal Conjugate Vaccine', 1),
+(7, 'Measles, Mumps, Rubella', 1),
+(8, 'asdf', 0);
+
 --
 -- Indexes for dumped tables
 --
@@ -308,6 +387,12 @@ ALTER TABLE `checkup`
   ADD PRIMARY KEY (`checkup_id`),
   ADD KEY `patient_id` (`patient_id`),
   ADD KEY `employee_id` (`user_id`);
+
+--
+-- Indexes for table `immunization_record`
+--
+ALTER TABLE `immunization_record`
+  ADD PRIMARY KEY (`immunization_record_id`);
 
 --
 -- Indexes for table `laboratory_request`
@@ -375,6 +460,21 @@ ALTER TABLE `user_details`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `vaccination`
+--
+ALTER TABLE `vaccination`
+  ADD PRIMARY KEY (`vaccination_id`),
+  ADD KEY `immunization_record_ibfk` (`immunization_record_id`),
+  ADD KEY `vaccine_ibfk` (`vaccine_id`),
+  ADD KEY `user_ibfk_6` (`user_id`);
+
+--
+-- Indexes for table `vaccine`
+--
+ALTER TABLE `vaccine`
+  ADD PRIMARY KEY (`vaccine_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -383,6 +483,12 @@ ALTER TABLE `user_details`
 --
 ALTER TABLE `checkup`
   MODIFY `checkup_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `immunization_record`
+--
+ALTER TABLE `immunization_record`
+  MODIFY `immunization_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `laboratory_request`
@@ -433,6 +539,18 @@ ALTER TABLE `user_details`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `vaccination`
+--
+ALTER TABLE `vaccination`
+  MODIFY `vaccination_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `vaccine`
+--
+ALTER TABLE `vaccine`
+  MODIFY `vaccine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -477,6 +595,14 @@ ALTER TABLE `prescription`
 --
 ALTER TABLE `user_details`
   ADD CONSTRAINT `user_ibfk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+
+--
+-- Constraints for table `vaccination`
+--
+ALTER TABLE `vaccination`
+  ADD CONSTRAINT `immunization_record_ibfk` FOREIGN KEY (`immunization_record_id`) REFERENCES `immunization_record` (`immunization_record_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_ibfk_6` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `vaccine_ibfk` FOREIGN KEY (`vaccine_id`) REFERENCES `vaccine` (`vaccine_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -41,7 +41,7 @@
       $this->file->patient_name = $this->name_format($patient['firstname'],$patient['lastname'],$patient['middlename'],true);
       $this->file->address = $patient['address'];
       $this->file->age = $this->get_age($patient['birthdate']);
-      $this->file->sex = $patient['sex'];
+      $this->file->sex = $this->get_sex($patient['sex']);
       $this->file->note = $checkup[0]['notes'];
       $this->file->personnel = $this->name_format($personnel['firstname'],$personnel['lastname'],$personnel['middlename'],true);
       $this->file->data = $prescription;

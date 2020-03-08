@@ -36,7 +36,7 @@
                     <td><?php echo $record['mother_name']?></td>
                     <td><?php echo $record['father_name']?></td>
                     <td style="width: 5%;" class="text-center">
-                      <a href="<?php echo URL ?>doctor/immunization/<?php echo $record['immunization_record_id']; ?>" title="Click to view detail"><i class="fa fa-bars"></i></a>
+                      <a href="<?php echo URL ?>nurse/immunization/<?php echo $record['immunization_record_id']; ?>" title="Click to view detail"><i class="fa fa-bars"></i></a>
                     </td>
                     <td>
                       <button class="btn btn-success btn-sm edit btn-flat" data-id="<?php echo $record['immunization_record_id']; ?>" id="edit"><i class="fa fa-edit"></i></button>

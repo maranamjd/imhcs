@@ -8,6 +8,9 @@
    require 'models/Patient.php';
    require 'models/Medicine.php';
    require 'models/Med_Category.php';
+   require 'models/Immunization_Record.php';
+   require 'models/Vaccine.php';
+   require 'models/Vaccination.php';
 
   class NurseController extends Controller
   {
@@ -22,6 +25,9 @@
       $this->patient = new Patient();
       $this->medicine = new Medicine();
       $this->med_category = new Med_Category();
+      $this->immunization_record = new Immunization_Record();
+      $this->vaccine = new Vaccine();
+      $this->vaccination = new Vaccination();
       $this->user_id = $this->session->get('user_id');
       $this->view->info = $this->_get_info();
     }
@@ -50,6 +56,29 @@
       $this->view->data = $this->patient->select(['*'], 'active = 1');
 
       $this->view->render('nurse/patient', 'nurse/inc');
+    }
+    public function vaccine(){
+      $this->view->js = ['nurse/js/vaccine.js'];
+      $this->view->css = ['nurse/css/default.css'];
+
+      $this->view->data = $this->immunization_record->select(['*'], 'active = 1');
+      $this->view->vaccines = $this->vaccine->select(['*'], 'active = 1');
+
+      $this->view->render('nurse/vaccine', 'nurse/inc');
+    }
+    public function immunization($id){
+      $this->view->js = ['nurse/js/immunization.js'];
+      $this->view->css = ['nurse/css/default.css'];
+
+      $this->view->patient = $this->immunization_record->select(['*'], "immunization_record_id = '$id'")[0];
+      $result = $this->vaccine->select(['*'], "active = 1");
+      foreach ($result as $key => $vaccine) {
+        $vaccine_id = $vaccine['vaccine_id'];
+        $result[$key]['vaccinations'] = $this->vaccination->join('user_details', 'user_id', "vaccination.vaccine_id = $vaccine_id AND vaccination.immunization_record_id = $id AND vaccination.active = 1");
+      }
+      $this->view->vaccines = $result;
+
+      $this->view->render('nurse/immunization', 'nurse/inc');
     }
 
     public function report(){

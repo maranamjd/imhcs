@@ -9,6 +9,10 @@
       return is_array($data) ? count($data) : 0;
     }
 
+    public function get_week($birthday){
+      return floor((strtotime(date('Y-m-d')) - strtotime($birthday)) / 604800);
+    }
+
     public function status($status){
       switch ($status) {
         case 0:

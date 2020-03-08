@@ -79,7 +79,7 @@
            </ul>
          </li>
 
-           <li class="treeview <?php echo ($this->page == "medicine" || $this->page == "category" || $this->page == "lab") ? 'active' : '' ?>">
+           <li class="treeview <?php echo ($this->page == "medicine" || $this->page == "category" || $this->page == "lab" || $this->page == "vaccine") ? 'active' : '' ?>">
             <a href="#">
               <i class="fa fa-gear"></i>
               <span>Maintenance</span>
@@ -91,6 +91,7 @@
               <li class="<?php echo ($this->page == "medicine") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/medicine"><i class="fa fa-medkit"></i> Medicines</a></li>
               <li class="<?php echo ($this->page == "category") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/category"><i class="fa fa-list-alt"></i> Categories</a></li>
               <li class="<?php echo ($this->page == "lab") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/lab"><i class="fa fa-list-alt"></i> Laboratory Test</a></li>
+              <li class="<?php echo ($this->page == "vaccine") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/vaccine"><i class="fa fa-list-alt"></i> Vaccines</a></li>
             </ul>
           </li>
 
