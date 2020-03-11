@@ -76,7 +76,7 @@
         $this->pdf->Cell(33,4,$prescription['name'],1,0,'C',false);
         $this->pdf->Cell(20,4,$prescription['no_days'],1,0,'C',false);
         $this->pdf->Cell(20,4,$prescription['intake_schedule'],1,0,'C',false);
-        $this->pdf->Cell(23,4,$prescription['before_meal'],1,1,'C',false);
+        $this->pdf->Cell(23,4,$prescription['before_meal'] == 1 ? 'Yes' : 'No',1,1,'C',false);
       }
       $this->pdf->SetFont('Calibri Bold','B',12);
       $this->pdf->setXY(10,95);

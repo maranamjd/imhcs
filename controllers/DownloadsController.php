@@ -32,7 +32,7 @@
     }
 
     public function prescription($id){
-      $checkup = $this->checkup->select(['patient_id', 'notes'], "checkup_id = $id");
+      $checkup = $this->exists($this->checkup->select(['patient_id', 'notes'], "checkup_id = $id"), true);
       $personnel = $this->user_details->select(['firstname', 'middlename', 'lastname'], "user_id = '$this->user_id'")[0];
       $prescription = $this->prescription->join('medicine', 'med_id', "prescription.active = 1 AND checkup_id = $id");
       $patient = $this->patient->select(['*'], "patient_id = '".$checkup[0]['patient_id']."'")[0];

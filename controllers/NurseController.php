@@ -70,7 +70,7 @@
       $this->view->js = ['nurse/js/immunization.js'];
       $this->view->css = ['nurse/css/default.css'];
 
-      $this->view->patient = $this->immunization_record->select(['*'], "immunization_record_id = '$id'")[0];
+      $this->view->patient = $this->exists($this->immunization_record->select(['*'], "immunization_record_id = '$id'"));
       $result = $this->vaccine->select(['*'], "active = 1");
       foreach ($result as $key => $vaccine) {
         $vaccine_id = $vaccine['vaccine_id'];

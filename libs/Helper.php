@@ -58,4 +58,18 @@
     	return substr(str_shuffle($letters), 0, 3).substr(str_shuffle($numbers), 0, 9);
     }
 
+    public function exists($array, $return_base = false){
+      if ($return_base) {
+        return $this->count($array) > 0 ? $array : $this->error();
+      }else {
+        return $this->count($array) > 0 ? $array[0] : $this->error();
+      }
+    }
+
+    function error(){
+      $error = new Excptn();
+      $error->show('404', 'Page not Found!');
+      exit;
+    }
+
   }

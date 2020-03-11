@@ -11,7 +11,7 @@ class Bootstrap
     $url = isset($_GET['url']) ? $_GET['url'] : START_PAGE;
     $url = rtrim($url, '/');
     $url = explode('/', $url);
-//class
+//controller
     $file = 'controllers/'. $url[0] .'controller.php';
     $controller = $url[0].'controller';
     if(file_exists($file)){
