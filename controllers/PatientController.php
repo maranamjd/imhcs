@@ -18,7 +18,7 @@
     public function create(){
       $this->patient->columns = [
         'id' => null,
-        'patient_id' => $this->helper->get_id(),
+        'patient_id' => $this->get_patient_id(),
         'firstname' => $_POST['firstname'],
         'middlename' => $_POST['middlename'] == '' ? null : $_POST['middlename'],
         'lastname' => $_POST['lastname'],
@@ -32,7 +32,7 @@
       if ($result) {
         $this->response(['res' => 1, 'message' => 'Successfuly Added!']);
       }else {
-        $this->response(['res' => 1, 'message' => $result]);
+        $this->response(['res' => 0, 'message' => $result]);
       }
     }
 
@@ -58,7 +58,7 @@
           if ($result) {
             $this->response(['res' => 1, 'message' => 'Successfuly Updated!']);
           }else {
-            $this->response(['res' => 1, 'message' => $result]);
+            $this->response(['res' => 0, 'message' => $result]);
           }
           break;
 
@@ -67,7 +67,7 @@
           if ($result) {
             $this->response(['res' => 1, 'message' => 'Successfuly Deleted!']);
           }else {
-            $this->response(['res' => 1, 'message' => $result]);
+            $this->response(['res' => 0, 'message' => $result]);
           }
           break;
       }
