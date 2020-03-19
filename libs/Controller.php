@@ -29,6 +29,11 @@
       ];
     }
 
+
+    function response($res){
+      echo json_encode($res);
+    }
+
     function get_patient_id(){
       $patient = $this->patient->select(['max(patient_id) as patient_id'], '1')[0]['patient_id'];
       if ($patient == null) {
@@ -38,9 +43,4 @@
         return substr_replace($id, 'P'.substr($id+1, 1), 0);
       }
     }
-
-    function response($res){
-      echo json_encode($res);
-    }
-
   }
