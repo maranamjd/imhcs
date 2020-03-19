@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2020 at 02:35 PM
+-- Generation Time: Mar 19, 2020 at 04:17 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.26
 
@@ -44,18 +44,6 @@ CREATE TABLE `checkup` (
   `notes` text DEFAULT NULL,
   `active` smallint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `checkup`
---
-
-INSERT INTO `checkup` (`checkup_id`, `patient_id`, `user_id`, `blood_pressure`, `temperature`, `pulse_rate`, `respiration_rate`, `weight`, `height`, `symptoms`, `diagnosis`, `date`, `notes`, `active`) VALUES
-(1, 'SCA931758264', 'FDH342960817', '90/120', '37', '70/80', '12/20', '45', '116', 'Dizziness, Headache', 'Fever', '2020-01-04 00:00:00', NULL, 1),
-(2, 'SCA931758264', 'FDH342960817', '90/100', '35', '72/80', '10/20', '60', '116', 'Difficulty in breathing', 'Busog', '2020-01-01 00:00:00', 'Mag diet', 0),
-(3, 'SCA931758264', 'FDH342960817', '90/120', '37', '72/80', '10/20', '50', '116', 'Vomiting', 'Food poisoning', '2020-01-02 00:00:00', 'Yannnnn. Katakawan!', 1),
-(4, 'SCA931758264', 'FDH342960817', '80/110', '34', '82/90', '12/20', '45', '162', 'Nagtatae', 'LBM', '2020-01-05 00:00:00', 'Drink lots of water', 1),
-(5, 'LNT451289037', 'FDH342960817', '100/120', '37', '86/90', '8/20', 'undefined', '173', NULL, NULL, '2020-01-05 00:00:00', NULL, 0),
-(6, 'SCA931758264', 'FDH342960817', '80/110', '33', '82/90', '8/20', '54', '162', 'adf', 'adsf', '2020-01-05 00:00:00', 'asdf', 1);
 
 -- --------------------------------------------------------
 
@@ -103,17 +91,6 @@ CREATE TABLE `laboratory_request` (
   `date_updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `laboratory_request`
---
-
-INSERT INTO `laboratory_request` (`lab_req_id`, `user_id`, `lab_id`, `patient_id`, `note`, `results`, `status`, `date_requested`, `date_updated`) VALUES
-(1, 'FDH342960817', 1, 'SCA931758264', 'baka may corona viruss', 'meron nga', 1, '2020-02-28 23:17:06', '2020-02-29 00:47:59'),
-(2, 'FDH342960817', 1, 'LNT451289037', 'para malaman ang ugat ng kasamaan', NULL, 2, '2020-02-28 23:34:10', NULL),
-(3, 'FDH342960817', 1, 'LNT451289037', 'dd', NULL, 0, '2020-02-28 23:44:54', NULL),
-(4, 'FDH342960817', 1, 'LNT451289037', 'dfs', NULL, 0, '2020-03-06 20:45:03', NULL),
-(7, 'FDH342960817', 1, 'SCA931758264', 'a', NULL, 2, '2020-03-06 22:45:31', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -149,18 +126,6 @@ CREATE TABLE `medication` (
   `date_requested` datetime NOT NULL DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `medication`
---
-
-INSERT INTO `medication` (`medication_id`, `user_id`, `patient_id`, `med_id`, `quantity`, `status`, `date_requested`, `date_updated`) VALUES
-(1, 'FDH342960817', 'LNT451289037', 3, 5, 1, '2020-02-28 18:34:18', '2020-02-29 00:33:53'),
-(2, 'FDH342960817', 'SCA931758264', 3, 3, 2, '2020-02-28 18:45:47', NULL),
-(3, 'FDH342960817', 'SCA931758264', 5, 1, 1, '2020-02-28 20:01:03', '2020-03-06 20:52:29'),
-(4, 'FDH342960817', 'LNT451289037', 3, 10, 2, '2020-03-06 20:44:26', NULL),
-(5, 'FDH342960817', 'SCA931758264', 4, 1, 2, '2020-03-06 21:05:41', NULL),
-(6, 'FDH342960817', 'SCA931758264', 3, 2, 0, '2020-03-07 00:36:22', NULL);
 
 -- --------------------------------------------------------
 
@@ -232,8 +197,9 @@ CREATE TABLE `patient` (
 --
 
 INSERT INTO `patient` (`id`, `patient_id`, `firstname`, `middlename`, `lastname`, `address`, `birthdate`, `contact_info`, `sex`, `active`, `created_on`) VALUES
-(8, 'SCA931758264', 'Mellisa', 'Fuentes', 'Ancino', 'Bulacan', '1996-07-24', '09375621287', 2, 1, '2020-01-05'),
-(9, 'LNT451289037', 'Adolf', NULL, 'Hitler', 'Berlin, Germany', '1985-06-26', '03847231223', 1, 1, '2020-01-05');
+(11, 'P000000001', 'Michael', 'Duran', 'Marana', 'Pampanga', '1997-10-11', '09334237563', 1, 1, '2020-03-19'),
+(13, 'P000000002', 'Mellisa', 'Fuentes', 'Ancino', 'bulacan', '1997-03-04', '0394467361', 2, 1, '2020-03-19'),
+(14, 'P000000003', 'Adolf', NULL, 'Hitler', 'Berlin, Germany', '1978-11-28', '0937362834', 1, 1, '2020-03-19');
 
 -- --------------------------------------------------------
 
@@ -250,18 +216,6 @@ CREATE TABLE `prescription` (
   `before_meal` int(1) DEFAULT NULL,
   `active` smallint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `prescription`
---
-
-INSERT INTO `prescription` (`id`, `checkup_id`, `med_id`, `no_days`, `intake_schedule`, `before_meal`, `active`) VALUES
-(1, 1, 3, 5, '1-0-1', 1, 1),
-(2, 4, 4, 3, '1-0-1', 0, 1),
-(3, 6, 4, 7, '1-1-1', 1, 1),
-(4, 4, 5, 1, '1-0-0', 1, 1),
-(5, 4, 3, 1, '1-1-1', 0, 1),
-(6, 3, 4, 7, '1-1-1', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -348,7 +302,8 @@ CREATE TABLE `vaccination` (
 
 INSERT INTO `vaccination` (`vaccination_id`, `immunization_record_id`, `vaccine_id`, `user_id`, `doses`, `date`, `remarks`, `active`) VALUES
 (3, 1, 1, 'DYE473869250', '1', '2020-03-08', 'next on March 15, 2020', 1),
-(4, 1, 1, 'FDH342960817', '1', '2020-03-08', 'asdf', 1);
+(4, 1, 1, 'FDH342960817', '1', '2020-03-08', 'asdf', 1),
+(5, 1, 3, 'FDH342960817', '1', '2020-03-11', 'ads', 1);
 
 -- --------------------------------------------------------
 
@@ -524,7 +479,7 @@ ALTER TABLE `med_category`
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `prescription`
@@ -542,7 +497,7 @@ ALTER TABLE `user_details`
 -- AUTO_INCREMENT for table `vaccination`
 --
 ALTER TABLE `vaccination`
-  MODIFY `vaccination_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `vaccination_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `vaccine`
@@ -558,8 +513,8 @@ ALTER TABLE `vaccine`
 -- Constraints for table `checkup`
 --
 ALTER TABLE `checkup`
-  ADD CONSTRAINT `patient_ibfk` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`),
-  ADD CONSTRAINT `user_id_ibfk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+  ADD CONSTRAINT `patient_ibfk` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_id_ibfk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `laboratory_request`
@@ -587,8 +542,8 @@ ALTER TABLE `medicine`
 -- Constraints for table `prescription`
 --
 ALTER TABLE `prescription`
-  ADD CONSTRAINT `checkup_ibfk` FOREIGN KEY (`checkup_id`) REFERENCES `checkup` (`checkup_id`),
-  ADD CONSTRAINT `med_ibfk` FOREIGN KEY (`med_id`) REFERENCES `medicine` (`med_id`);
+  ADD CONSTRAINT `checkup_ibfk` FOREIGN KEY (`checkup_id`) REFERENCES `checkup` (`checkup_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `med_ibfk` FOREIGN KEY (`med_id`) REFERENCES `medicine` (`med_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_details`
