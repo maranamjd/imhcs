@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2020 at 04:17 PM
+-- Generation Time: Mar 23, 2020 at 09:01 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.26
 
@@ -44,6 +44,14 @@ CREATE TABLE `checkup` (
   `notes` text DEFAULT NULL,
   `active` smallint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `checkup`
+--
+
+INSERT INTO `checkup` (`checkup_id`, `patient_id`, `user_id`, `blood_pressure`, `temperature`, `pulse_rate`, `respiration_rate`, `weight`, `height`, `symptoms`, `diagnosis`, `date`, `notes`, `active`) VALUES
+(8, 'P000000002', 'FDH342960817', '80/110', '34', '82/90', '8/20', '55', '162', 'Headache', 'Hangover', '2020-03-23 00:00:00', 'Drink moderately', 1),
+(9, 'P000000003', 'FDH342960817', '80/110', '34', '82/90', '8/20', '66', '162', 'asdf', 'asdf', '2020-03-23 00:00:00', 'follow up checkup on March 30, 2020', 1);
 
 -- --------------------------------------------------------
 
@@ -91,6 +99,15 @@ CREATE TABLE `laboratory_request` (
   `date_updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `laboratory_request`
+--
+
+INSERT INTO `laboratory_request` (`lab_req_id`, `user_id`, `lab_id`, `patient_id`, `note`, `results`, `status`, `date_requested`, `date_updated`) VALUES
+(8, 'FDH342960817', 1, 'P000000002', 'sd', NULL, 0, '2020-03-22 12:56:11', NULL),
+(9, 'FDH342960817', 1, 'P000000002', 'asdf', NULL, 0, '2020-03-23 13:12:32', NULL),
+(10, 'FDH342960817', 1, 'P000000003', 'asdf', NULL, 0, '2020-03-23 14:27:48', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -108,7 +125,8 @@ CREATE TABLE `laboratory_test` (
 --
 
 INSERT INTO `laboratory_test` (`lab_id`, `description`, `active`) VALUES
-(1, 'Blood Testing', 1);
+(1, 'Blood Testing', 1),
+(2, 'Written', 1);
 
 -- --------------------------------------------------------
 
@@ -118,6 +136,7 @@ INSERT INTO `laboratory_test` (`lab_id`, `description`, `active`) VALUES
 
 CREATE TABLE `medication` (
   `medication_id` int(11) NOT NULL,
+  `checkup_id` int(11) NOT NULL,
   `user_id` varchar(15) CHARACTER SET latin1 NOT NULL,
   `patient_id` varchar(15) CHARACTER SET latin1 NOT NULL,
   `med_id` int(11) NOT NULL,
@@ -126,6 +145,15 @@ CREATE TABLE `medication` (
   `date_requested` datetime NOT NULL DEFAULT current_timestamp(),
   `date_updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `medication`
+--
+
+INSERT INTO `medication` (`medication_id`, `checkup_id`, `user_id`, `patient_id`, `med_id`, `quantity`, `status`, `date_requested`, `date_updated`) VALUES
+(8, 8, 'FDH342960817', 'P000000002', 4, 1, 2, '2020-03-23 12:08:19', '2020-03-23 12:31:46'),
+(9, 8, 'FDH342960817', 'P000000002', 3, 1, 0, '2020-03-23 13:53:17', NULL),
+(10, 9, 'FDH342960817', 'P000000003', 4, 1, 0, '2020-03-23 14:23:21', NULL);
 
 -- --------------------------------------------------------
 
@@ -216,6 +244,15 @@ CREATE TABLE `prescription` (
   `before_meal` int(1) DEFAULT NULL,
   `active` smallint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `prescription`
+--
+
+INSERT INTO `prescription` (`id`, `checkup_id`, `med_id`, `no_days`, `intake_schedule`, `before_meal`, `active`) VALUES
+(7, 8, 3, 1, '1-0-0', 1, 0),
+(8, 8, 4, 1, '1-1-0', 1, 0),
+(9, 9, 4, 1, '1-1-0', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -371,7 +408,8 @@ ALTER TABLE `medication`
   ADD PRIMARY KEY (`medication_id`),
   ADD KEY `patient_ibfk_2` (`patient_id`),
   ADD KEY `med_ibfk_2` (`med_id`),
-  ADD KEY `user_ibfk_4` (`user_id`);
+  ADD KEY `user_ibfk_4` (`user_id`),
+  ADD KEY `checkup_ibfk_3` (`checkup_id`);
 
 --
 -- Indexes for table `medicine`
@@ -437,7 +475,7 @@ ALTER TABLE `vaccine`
 -- AUTO_INCREMENT for table `checkup`
 --
 ALTER TABLE `checkup`
-  MODIFY `checkup_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `checkup_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `immunization_record`
@@ -449,19 +487,19 @@ ALTER TABLE `immunization_record`
 -- AUTO_INCREMENT for table `laboratory_request`
 --
 ALTER TABLE `laboratory_request`
-  MODIFY `lab_req_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `lab_req_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `laboratory_test`
 --
 ALTER TABLE `laboratory_test`
-  MODIFY `lab_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `lab_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `medication`
 --
 ALTER TABLE `medication`
-  MODIFY `medication_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `medication_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `medicine`
@@ -479,13 +517,13 @@ ALTER TABLE `med_category`
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `prescription`
 --
 ALTER TABLE `prescription`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `user_details`
@@ -528,6 +566,7 @@ ALTER TABLE `laboratory_request`
 -- Constraints for table `medication`
 --
 ALTER TABLE `medication`
+  ADD CONSTRAINT `checkup_ibfk_3` FOREIGN KEY (`checkup_id`) REFERENCES `checkup` (`checkup_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `med_ibfk_2` FOREIGN KEY (`med_id`) REFERENCES `medicine` (`med_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `patient_ibfk_2` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
