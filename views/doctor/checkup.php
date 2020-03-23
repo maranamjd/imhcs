@@ -116,7 +116,7 @@
                   </div>
                   <div class="form-group">
                     <div class="col-lg-8">
-                      <label for="notes">Notes :</label>
+                      <label for="notes">Follow up :</label>
                       <textarea class="form-control" name="symptoms" id="notes" rows="4" cols="60"></textarea>
                     </div>
                   </div>
@@ -246,8 +246,15 @@
                                   <?php endforeach; ?>
                                 </table>
                               </div>
+                            </div>
+                          </li>
+                          <li>
+                            <i class="fa fa-code-fork bg-aqua"></i>
+                            <div class="timeline-item">
+                              <h3 class="timeline-header">
+                                <a>Follow Up</a>
+                              </h3>
                               <div class="timeline-body">
-                                <b>Extra Note :</b>
                                 <p><?php echo $checkup['notes'] ?></p>
                               </div>
                             </div>

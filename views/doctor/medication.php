@@ -13,7 +13,6 @@
     <div class="col-lg-12" id="main_content">
       <div class="box">
         <div class="box-header with-border">
-          <span class="btn btn-primary btn-sm btn-flat" id="add"><i class="fa fa-plus"></i> New</span>
         </div>
         <div class="box-body">
           <table id="medication_table" class="table table-bordered table-striped">
@@ -35,10 +34,7 @@
                     <td><?php echo $medication['quantity']; ?></td>
                     <td><?php echo $this->status($medication['status']); ?></td>
                     <td>
-                      <?php if ($medication['status'] == 0): ?>
-                        <button class="btn btn-success btn-sm edit btn-flat" data-id="<?php echo $medication['medication_id']; ?>" id="edit"><i class="fa fa-edit"></i></button>
-                        <button class="btn btn-danger btn-sm delete btn-flat" data-id="<?php echo $medication['medication_id']; ?>" id="delete"><i class="fa fa-ban"></i></button>
-                      <?php endif; ?>
+                      <a class="btn btn-success btn-sm edit btn-flat" href="<?php echo URL ?>doctor/medications/<?php echo $medication['patient_id'] ?>"><i class="fa fa-eye"></i></a>
                     </td>
                   </tr>
                 <?php endforeach; ?>

@@ -78,12 +78,6 @@
         $this->pdf->Cell(20,4,$prescription['intake_schedule'],1,0,'C',false);
         $this->pdf->Cell(23,4,$prescription['before_meal'] == 1 ? 'Yes' : 'No',1,1,'C',false);
       }
-      $this->pdf->SetFont('Calibri Bold','B',12);
-      $this->pdf->setXY(10,95);
-      $this->pdf->Cell(4,4,'Note:',0,0,'L',false);
-      $this->pdf->SetFont('Calibri','',10);
-      $this->pdf->setXY(22,95);
-      $this->pdf->MultiCell(70,4,$this->note,0,'L',false);
     }
 
     private function _createFooter(){

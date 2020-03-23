@@ -73,7 +73,7 @@
       $this->view->css = ['doctor/css/default.css'];
 
       $this->view->patient = $this->exists($this->patient->select(['*'], "patient_id = '$id'"));
-      $result =  $this->checkup->select(['user_id', 'date', 'diagnosis'], "active = 1 AND patient_id = '$id' ORDER BY date DESC");
+      $result =  $this->checkup->select(['user_id', 'date', 'diagnosis', 'notes'], "active = 1 AND patient_id = '$id' ORDER BY date DESC");
       foreach ($result as $key => $checkup) {
         $user_id = $checkup['user_id'];
         $result[$key]['doctor'] = $this->user_details->select(['firstname', 'middlename', 'lastname'], "user_id = '$user_id'")[0];
@@ -113,8 +113,8 @@
         $user_id = $medication['user_id'];
         $result[$key]['doctor'] = $this->user_details->select(['firstname', 'middlename', 'lastname'], "user_id = '$user_id'")[0];
       }
-      $this->view->medicines = $this->medicine->select(['*'], "active = 1");
       $this->view->medications = $result;
+      $this->view->checkups = $this->checkup->select(['*'], "active = 1 AND patient_id = '$id'");
       $this->view->render('doctor/medications', 'doctor/inc');
     }
 
@@ -129,7 +129,18 @@
         $result[$key]['doctor'] = $this->user_details->select(['firstname', 'middlename', 'lastname'], "user_id = '$user_id'")[0];
       }
       $this->view->laboratories = $result;
-      $this->view->lab_tests = $this->lab_test->select(['*'], "active = 1");
+      $requests = $this->lab_request->select(['*'], "patient_id = '$id'");
+      $test_ids = '';
+      foreach ($requests as $request) {
+        $date = date("Y-m-d", strtotime($request['date_requested']));
+        if($date == date("Y-m-d")){
+          $test_ids .= $request['lab_id'].',';
+        }
+      }
+      $test_ids = rtrim($test_ids, ',');
+      $this->view->lab_tests = ($test_ids != '')
+        ? $this->lab_test->select(['*'], "active = 1 AND lab_id NOT IN ($test_ids)")
+        : $this->lab_test->select(['*'], "active = 1");
 
       $this->view->render('doctor/labs', 'doctor/inc');
     }

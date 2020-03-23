@@ -4,7 +4,9 @@ $(document).ready(function(){
   $(document).on('click', '#add', function(){
     $('#patient').val('');
     $('#patient_name').val('');
-    $('#medicine').val('');
+    $('#medicine').html('<option value="" selected disabled>- Select -</option>');
+    $('#checkups').val('');
+    $('#checkups').attr('disabled', false);
     $('#quantity').val(1);
     $('#process').val('add');
     $('#matches').hide();
@@ -29,6 +31,9 @@ $(document).ready(function(){
       success: function(data){
         $('#patient').val(data['lastname']+', '+data['firstname']);
         $('#patient_id').val(data['patient_id']);
+        $('#checkups').val(data['checkup_id']);
+        $('#checkups').prop('disabled', true);
+        getMedicines(data['checkup_id']);
         $('#medicine').val(data['med_id']);
         $('#quantity').val(data['quantity']);
       }
@@ -53,6 +58,7 @@ $(document).ready(function(){
         if (result.value) {
           let formData = new FormData();
           formData.append('patient_id', $('#patient_id').val());
+          formData.append('checkup_id', $('#checkups').val());
           formData.append('med_id', $('#medicine').val());
           formData.append('quantity', $('#quantity').val());
           $.ajax({
@@ -186,5 +192,31 @@ $(document).ready(function(){
       }
     });
   });
+
+  $(document).on("change", "#checkups", function(){
+    getMedicines($(this).val());
+  });
+
+  function getMedicines(id){
+    $.ajax({
+      url: url+'medicine/get',
+      method: 'post',
+      dataType: 'json',
+      data: {id: id},
+      success: function(data){
+        appendSelect(data);
+      }
+    });
+  }
+
+  const appendSelect = data => {
+    let html = '<option value="" disabled selected>- Select -</option>';
+    if (data.length > 0) {
+      html += data.map(medicine => `
+        <option value="${medicine.med_id}">${medicine.name}</option>
+      `).join('');
+    }
+    $('#medicine').html(html);
+  }
 
 });

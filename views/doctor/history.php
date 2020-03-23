@@ -77,8 +77,7 @@
                     <?php if (count($this->checkups) > 0): ?>
                       <?php foreach ($this->checkups as $checkup): ?>
                         <div style="line-height: 1em; margin: 1em 0;">
-                          <p><b><?php echo date('F d, Y', strtotime($checkup['date'])) ?></b>: <?php echo $checkup['diagnosis'] ?></p>
-                          <!-- <p><h6 class="text-muted"><b>Doctor:</b> <?php echo $this->name_format($checkup['doctor']['firstname'], $checkup['doctor']['lastname'], $checkup['doctor']['middlename'], true) ?></h6></p> -->
+                          <p><b><?php echo date('F d, Y', strtotime($checkup['date'])) ?></b>: <?php echo $checkup['diagnosis'] ?> <b>(<?php echo $checkup['notes'] ?>)</b></p>
                         </div>
                       <?php endforeach; ?>
                     <?php else: ?>

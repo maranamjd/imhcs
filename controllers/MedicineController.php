@@ -4,6 +4,8 @@
    */
    //require models
    require 'models/Medicine.php';
+   require 'models/Prescription.php';
+   require 'models/Medication.php';
 
   class MedicineController extends Controller
   {
@@ -13,6 +15,8 @@
       parent::__construct();
       //create instance of a model
       $this->medicine = new Medicine();
+      $this->prescription = new Prescription();
+      $this->medication = new Medication();
     }
 
     public function create(){
@@ -58,6 +62,19 @@
           }
           break;
       }
+    }
+
+    public function get(){
+      $id = $_POST['id'];
+      $data = [];
+      $medicines = $this->prescription->join('medicine', 'med_id', "prescription.active = 1 AND prescription.checkup_id = $id");
+      foreach ($medicines as $medicine) {
+        $medication = $this->medication->select(['medication_id'], "status = 0 AND med_id = ".$medicine['med_id']." AND checkup_id = ".$medicine['checkup_id']);
+        if ($this->count($medication) < 1) {
+          $data[] = $medicine;
+        }
+      }
+      echo json_encode($data);
     }
 
   }

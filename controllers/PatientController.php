@@ -16,6 +16,15 @@
     }
 
     public function create(){
+      $fname = $_POST['firstname'];
+      $lname = $_POST['lastname'];
+      $bdate = $_POST['birthdate'];
+      $exists = $this->patient->select(['*'], "firstname LIKE '%$fname%' AND lastname LIKE '%$lname%' AND birthdate = '$bdate'");
+      if ($this->count($exists) > 0) {
+        $this->response(['res' => 0, 'message' => 'Patient record already exists!']);
+        exit;
+      }
+
       $this->patient->columns = [
         'id' => null,
         'patient_id' => $this->get_patient_id(),

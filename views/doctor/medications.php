@@ -58,35 +58,39 @@
       <div class="box box-primary" id="history">
         <div class="box-header with-border">
           <h3 class="box-title">Medications</h3>
-          <span class="btn btn-primary btn-sm btn-flat pull-right" id="add"><i class="fa fa-plus"></i> New</span>
+          <?php if ($this->count($this->checkups) > 0): ?>
+            <span class="btn btn-primary btn-sm btn-flat pull-right" id="add"><i class="fa fa-plus"></i> New</span>
+          <?php endif; ?>
         </div>
         <div class="box-body">
-          <table id="patient_table" class="table table-bordered table-striped">
-            <thead>
-              <th>Date Requested</th>
-              <th>Name</th>
-              <th>Status</th>
-              <th>Requested By</th>
-              <th>Tools</th>
-            </thead>
-            <tbody>
-              <?php if ($this->count($this->medications) > 0): ?>
-                <?php foreach ($this->medications as $medication): ?>
-                  <tr>
-                    <td><?php echo date('M d, Y', strtotime($medication['date_requested'])) ?></td>
-                    <td><?php echo $medication['name']; ?></td>
-                    <td><?php echo $this->status($medication['status'])?></td>
-                    <td>Dr. <?php echo $this->name_format($medication['doctor']['firstname'], $medication['doctor']['lastname'], $medication['doctor']['middlename'], true); ?></td>
-                    <td>
-                      <?php if ($medication['status'] == 0): ?>
-                        <button class="btn btn-success btn-sm edit btn-flat" data-id="<?php echo $medication['medication_id']; ?>" id="edit"><i class="fa fa-edit"></i></button>
-                        <button class="btn btn-danger btn-sm delete btn-flat" data-id="<?php echo $medication['medication_id']; ?>" id="delete"><i class="fa fa-ban"></i></button>
-                      <?php endif; ?>
-                    </td>
-                  </tr>
-                <?php endforeach; ?>
-              <?php endif; ?>
-            </tbody>
+          <?php if ($this->count($this->medications) > 0): ?>
+            <table id="patient_table" class="table table-bordered table-striped">
+              <thead>
+                <th>Date Requested</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Requested By</th>
+                <th>Tools</th>
+              </thead>
+              <tbody>
+                  <?php foreach ($this->medications as $medication): ?>
+                    <tr>
+                      <td><?php echo date('M d, Y', strtotime($medication['date_requested'])) ?></td>
+                      <td><?php echo $medication['name']; ?></td>
+                      <td><?php echo $this->status($medication['status'])?></td>
+                      <td>Dr. <?php echo $this->name_format($medication['doctor']['firstname'], $medication['doctor']['lastname'], $medication['doctor']['middlename'], true); ?></td>
+                      <td>
+                        <?php if ($medication['status'] == 0): ?>
+                          <button class="btn btn-success btn-sm edit btn-flat" data-id="<?php echo $medication['medication_id']; ?>" id="edit"><i class="fa fa-edit"></i></button>
+                          <button class="btn btn-danger btn-sm delete btn-flat" data-id="<?php echo $medication['medication_id']; ?>" id="delete"><i class="fa fa-ban"></i></button>
+                        <?php endif; ?>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+              </tbody>
+            <?php else: ?>
+              <p class="text-center">Nothing to show..</p>
+            <?php endif; ?>
           </table>
         </div>
       </div>
@@ -101,14 +105,25 @@
 
         <div class="form-group">
           <div class="col-lg-12">
-            <label for="medicine" class="control-label">Medicine</label>
-            <select class="form-control" name="medicine" id="medicine" required>
-              <option value="" selected>- Select -</option>
-              <?php if (count($this->medicines) > 0): ?>
-                <?php foreach ($this->medicines as $medicine): ?>
-                  <option value="<?php echo $medicine['med_id'] ?>"><?php echo $medicine['name'] ?></option>
+            <label for="checkups" class="control-label">Checkups</label>
+            <select class="form-control" name="checkups" id="checkups" required>
+              <option value="" selected disabled>- Select -</option>
+              <?php if (count($this->checkups) > 0): ?>
+                <?php foreach ($this->checkups as $checkup): ?>
+                  <option value="<?php echo $checkup['checkup_id'] ?>">
+                    <h5><?php echo $checkup['diagnosis'] ?> - </h5>
+                    <span><?php echo date("F d, Y ", strtotime($checkup['date'])) ?></span>
+                  </option>
                 <?php endforeach; ?>
               <?php endif; ?>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-lg-12">
+            <label for="medicine" class="control-label">Medicine</label>
+            <select class="form-control" name="medicine" id="medicine" required>
             </select>
           </div>
         </div>

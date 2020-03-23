@@ -4,8 +4,8 @@ $(document).ready(function(){
   $(document).on('click', '#add', function(){
     $('#patient').val('');
     $('#patient_name').val('');
-    $('#medicine').val('');
-    $('#quantity').val(1);
+    $('#laboratory').val('');
+    $('#note').val('');
     $('#process').val('add');
     $('#matches').hide();
     $('#main_content').attr('class', 'col-lg-5');
@@ -29,7 +29,7 @@ $(document).ready(function(){
       success: function(data){
         $('#patient').val(data['lastname']+', '+data['firstname']);
         $('#patient_id').val(data['patient_id']);
-        $('#laboratory').val(data['lab_id']);
+        $('#laboratory').val('');
         $('#note').val(data['note']);
       }
     });
