@@ -4,6 +4,7 @@
    */
    //require models
    require 'models/Vaccination.php';
+   require 'models/Immunization_Record.php';
 
   class VaccinationController extends Controller
   {
@@ -13,6 +14,7 @@
       parent::__construct();
       //create instance of a model
       $this->vaccination = new Vaccination();
+      $this->immunization_record = new Immunization_Record();
     }
 
     public function create(){
@@ -23,9 +25,15 @@
         'user_id' => $this->session->get('user_id'),
         'doses' => $_POST['doses'],
         'date' => date('Y-m-d'),
-        'remarks' => $_POST['remarks']
+        'remarks' => $_POST['remarks'],
+        'vaccination_level' => $_POST['vaccination_level']
       ];
       $result = $this->vaccination->save();
+      if ($_POST['next_level'] == 1) {
+        $this->immunization_record->update([
+          'vaccination_level' => $_POST['vaccination_level'] + 1
+        ], "immunization_record_id = ".$_POST['immunization_record_id']);
+      }
       if ($result) {
         $this->response(['res' => 1, 'message' => 'Successfuly Added!']);
       }else {

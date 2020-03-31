@@ -1,9 +1,9 @@
 $(document).ready(function(){
   $('#medication_table').DataTable();
+  $('#remarks').val("Next Vaccination on "+$('#remark_value').val());
 
   $(document).on('click', '#add', function(){
     $('#doses').val('1');
-    $('#remarks').val('');
     $('#vaccine_id').val($(this).attr('data-id'));
     $('#process').val('add');
     $('#main_content').attr('class', 'col-lg-5');
@@ -51,6 +51,8 @@ $(document).ready(function(){
           formData.append('doses', $('#doses').val());
           formData.append('remarks', $('#remarks').val());
           formData.append('vaccine_id', $('#vaccine_id').val());
+          formData.append('next_level', $('#next_level').val());
+          formData.append('vaccination_level', $('#vaccination_level').val());
           formData.append('immunization_record_id', $('#immunization_record_id').val());
           $.ajax({
             url: url+'vaccination/create',

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 23, 2020 at 09:01 AM
+-- Generation Time: Mar 31, 2020 at 02:49 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.26
 
@@ -70,6 +70,7 @@ CREATE TABLE `immunization_record` (
   `birth_weight` varchar(64) NOT NULL,
   `sex` smallint(1) NOT NULL,
   `address` varchar(128) NOT NULL,
+  `vaccination_level` smallint(1) NOT NULL DEFAULT 1,
   `created_on` datetime NOT NULL DEFAULT current_timestamp(),
   `active` smallint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -78,8 +79,8 @@ CREATE TABLE `immunization_record` (
 -- Dumping data for table `immunization_record`
 --
 
-INSERT INTO `immunization_record` (`immunization_record_id`, `child_name`, `mother_name`, `father_name`, `birthdate`, `birthplace`, `birth_height`, `birth_weight`, `sex`, `address`, `created_on`, `active`) VALUES
-(1, 'Michael Joshua Marana', 'Marissa Marana', 'Fernando Marana', '2020-02-05', 'Camarines Norte', '130', '6', 1, 'Pampanga', '2020-03-08 00:00:00', 1);
+INSERT INTO `immunization_record` (`immunization_record_id`, `child_name`, `mother_name`, `father_name`, `birthdate`, `birthplace`, `birth_height`, `birth_weight`, `sex`, `address`, `vaccination_level`, `created_on`, `active`) VALUES
+(1, 'Michael Joshua Marana', 'Marissa Marana', 'Fernando Marana', '2020-02-05', 'Camarines Norte', '130', '6', 1, 'Pampanga', 4, '2020-03-08 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -330,6 +331,7 @@ CREATE TABLE `vaccination` (
   `doses` varchar(32) NOT NULL,
   `date` date NOT NULL,
   `remarks` text NOT NULL,
+  `vaccination_level` smallint(1) NOT NULL,
   `active` smallint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -337,10 +339,15 @@ CREATE TABLE `vaccination` (
 -- Dumping data for table `vaccination`
 --
 
-INSERT INTO `vaccination` (`vaccination_id`, `immunization_record_id`, `vaccine_id`, `user_id`, `doses`, `date`, `remarks`, `active`) VALUES
-(3, 1, 1, 'DYE473869250', '1', '2020-03-08', 'next on March 15, 2020', 1),
-(4, 1, 1, 'FDH342960817', '1', '2020-03-08', 'asdf', 1),
-(5, 1, 3, 'FDH342960817', '1', '2020-03-11', 'ads', 1);
+INSERT INTO `vaccination` (`vaccination_id`, `immunization_record_id`, `vaccine_id`, `user_id`, `doses`, `date`, `remarks`, `vaccination_level`, `active`) VALUES
+(8, 1, 1, 'FDH342960817', '1', '2020-03-31', 'a', 1, 1),
+(9, 1, 2, 'FDH342960817', '1', '2020-03-31', 'as', 1, 1),
+(10, 1, 3, 'FDH342960817', '1', '2020-03-31', 'Next Vaccination on April 28, 2020', 2, 1),
+(11, 1, 4, 'FDH342960817', '1', '2020-03-31', 'Next Vaccination on April 28, 2020', 2, 1),
+(12, 1, 6, 'FDH342960817', '1', '2020-03-31', 'Next Vaccination on April 28, 2020', 2, 1),
+(13, 1, 3, 'FDH342960817', '1', '2020-03-31', 'Next Vaccination on April 28, 2020', 3, 1),
+(14, 1, 4, 'FDH342960817', '1', '2020-03-31', 'Next Vaccination on April 28, 2020', 3, 1),
+(15, 1, 6, 'FDH342960817', '1', '2020-03-31', 'Next Vaccination on April 28, 2020', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -365,8 +372,7 @@ INSERT INTO `vaccine` (`vaccine_id`, `name`, `active`) VALUES
 (4, 'Oral Polio Vaccine', 1),
 (5, 'Inactivated Polio Vaccine', 1),
 (6, 'Pneumococcal Conjugate Vaccine', 1),
-(7, 'Measles, Mumps, Rubella', 1),
-(8, 'asdf', 0);
+(7, 'Measles, Mumps, Rubella', 1);
 
 --
 -- Indexes for dumped tables
@@ -535,7 +541,7 @@ ALTER TABLE `user_details`
 -- AUTO_INCREMENT for table `vaccination`
 --
 ALTER TABLE `vaccination`
-  MODIFY `vaccination_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `vaccination_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `vaccine`

@@ -13,6 +13,55 @@
       return floor((strtotime(date('Y-m-d')) - strtotime($birthday)) / 604800);
     }
 
+    public function get_next_vaccine($level){
+      $date = date("Y-m-d");
+      switch ($level) {
+        case 1:
+        return date("F d, Y", strtotime("$date + 6 week"));
+          break;
+
+        case 2:
+        case 3:
+        return date("F d, Y", strtotime("$date + 4 week"));
+          break;
+
+        case 4:
+        return date("F d, Y", strtotime("$date + 22 week"));
+          break;
+
+        case 5:
+        return date("F d, Y", strtotime("$date + 12 week"));
+          break;
+
+        case 6:
+        return "Child Immunization Complete";
+          break;
+
+      }
+    }
+
+    public function get_vaccination($level){
+      switch ($level) {
+        case 1:
+        return "1, 2";
+          break;
+
+        case 2:
+        case 3:
+        return "3, 4, 6";
+          break;
+
+        case 4:
+        return "3, 4, 5, 6";
+          break;
+
+        case 5:
+        case 6:
+        return "7";
+          break;
+      }
+    }
+
     public function status($status){
       switch ($status) {
         case 0:

@@ -189,10 +189,12 @@
       $this->view->css = ['doctor/css/default.css'];
 
       $this->view->patient = $this->exists($this->immunization_record->select(['*'], "immunization_record_id = '$id'"));
-      $result = $this->vaccine->select(['*'], "active = 1");
+      $vaccination_level = $this->get_vaccination($this->view->patient['vaccination_level']);
+      $level = $this->view->patient['vaccination_level'];
+      $result = $this->vaccine->select(['*'], "vaccine_id IN ($vaccination_level) AND active = 1");
       foreach ($result as $key => $vaccine) {
         $vaccine_id = $vaccine['vaccine_id'];
-        $result[$key]['vaccinations'] = $this->vaccination->join('user_details', 'user_id', "vaccination.vaccine_id = $vaccine_id AND vaccination.immunization_record_id = $id AND vaccination.active = 1");
+        $result[$key]['vaccinations'] = $this->vaccination->join('user_details', 'user_id', "vaccination.vaccine_id = $vaccine_id AND vaccination.immunization_record_id = $id AND vaccination.vaccination_level = $level AND vaccination.active = 1");
       }
       $this->view->vaccines = $result;
 
