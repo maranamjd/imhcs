@@ -1,6 +1,6 @@
 $(document).ready(function(){
   $('#medication_table').DataTable();
-  $('#remarks').val("Next Vaccination on "+$('#remark_value').val());
+  $('#remarks').val($('#remark_value').val());
 
   $(document).on('click', '#add', function(){
     $('#doses').val('1');

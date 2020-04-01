@@ -197,6 +197,9 @@
         $result[$key]['vaccinations'] = $this->vaccination->join('user_details', 'user_id', "vaccination.vaccine_id = $vaccine_id AND vaccination.immunization_record_id = $id AND vaccination.vaccination_level = $level AND vaccination.active = 1");
       }
       $this->view->vaccines = $result;
+      if ($level > 1) {
+        $this->view->next_vaccine = $this->vaccination->select(['max(vaccination_level)', 'remarks'], "immunization_record_id = $id")[0];
+      }
 
       $this->view->render('doctor/immunization', 'doctor/inc');
     }

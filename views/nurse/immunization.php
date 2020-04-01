@@ -60,10 +60,12 @@
     <div class="col-md-9" id="main_content">
       <div class="box box-primary" id="history">
         <div class="box-header with-border">
-          <h3 class="box-title">Vaccination Record</h3>
+          <h3 class="box-title">Vaccination</h3>
+          <a class="btn btn-danger btn-sm btn-flat pull-right" href="<?php echo URL ?>downloads/immunization/<?php echo $this->patient['immunization_record_id'] ?>" title="Print Immunization Record" target="_blank"><i class="fa fa-file"></i></a>
         </div>
         <div class="box-body">
           <div id="timeline">
+            <?php $next_level = 0; ?>
             <?php if ($this->count($this->vaccines) > 0): ?>
               <?php foreach ($this->vaccines as $key => $vaccine): ?>
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -77,15 +79,13 @@
                     </div>
                     <div id="collapse_<?php echo $vaccine['vaccine_id'] ?>" class="panel-collapse collapse <?php echo $key == 0 ? "in" : '' ?>" role="tabpanel" aria-labelledby="headingOne">
                       <div class="panel-body">
-                        <span class="btn btn-primary btn-sm btn-flat pull-right" id="add" data-id="<?php echo $vaccine['vaccine_id'] ?>"><i class="fa fa-plus"></i> New</span>
                         <?php if ($this->count($vaccine['vaccinations']) > 0): ?>
                           <table id="patient_table" class="table table-bordered table-striped">
                             <thead>
                               <th>Doses</th>
                               <th>Date</th>
-                              <th>Remarks</th>
+                              <th>Next Vaccination</th>
                               <th>Administered By</th>
-                              <th>Tools</th>
                             </thead>
                             <tbody>
                               <?php foreach ($vaccine['vaccinations'] as $vaccination): ?>
@@ -94,16 +94,25 @@
                                   <td><?php echo date('M d, Y', strtotime($vaccination['date'])) ?></td>
                                   <td><?php echo $vaccination['remarks']?></td>
                                   <td><?php echo $this->name_format($vaccination['firstname'],$vaccination['lastname'],$vaccination['middlename'],true)?></td>
-                                  <td>
+                                  <!-- <td>
                                     <button class="btn btn-success btn-sm edit btn-flat" data-id="<?php echo $vaccination['vaccination_id']; ?>" id="edit"><i class="fa fa-edit"></i></button>
                                     <button class="btn btn-danger btn-sm delete btn-flat" data-id="<?php echo $vaccination['vaccination_id']; ?>" id="delete"><i class="fa fa-ban"></i></button>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               <?php endforeach; ?>
                             </tbody>
                           </table>
                         <?php else: ?>
-                          <p>Nothing to show...</p>
+                          <?php $next_level++; ?>
+                          <?php if (isset($this->next_vaccine)): ?>
+                            <?php if ($this->next_vaccine['remarks'] != date("F d, Y")): ?>
+                              Child vaccination not available.<br>
+                              Next vaccination is on <?php echo $this->next_vaccine['remarks'] ?>.
+                            <?php else: ?>
+                              <span class="btn btn-primary btn-sm btn-flat pull-right" id="add" data-id="<?php echo $vaccine['vaccine_id'] ?>"><i class="fa fa-plus"></i> New</span>
+                              <p>Child vaccination now availble.</p>
+                            <?php endif; ?>
+                          <?php endif; ?>
                         <?php endif; ?>
                       </div>
                     </div>
@@ -112,6 +121,10 @@
               <?php endforeach; ?>
             <?php endif; ?>
           </div>
+          <span>
+            <b>NOTE:</b>
+            All vaccines must be administered at the same day
+          </span>
         </div>
       </div>
     </div>
@@ -122,6 +135,9 @@
       </h3>
       <form class="form-horizontal" id="lab_form" enctype="multipart/form-data">
         <input type="hidden" name="vaccine_id" id="vaccine_id">
+        <input type="hidden" name="remarks" id="remark_value" value="<?php echo $this->get_next_vaccine($this->patient['vaccination_level']) ?>">
+        <input type="hidden" name="next_level" id="next_level" value="<?php echo $next_level ?>">
+        <input type="hidden" name="vaccination_level" id="vaccination_level" value="<?php echo $this->patient['vaccination_level'] ?>">
         <input type="hidden" name="immunization_record_id" id="immunization_record_id" value="<?php echo $this->patient['immunization_record_id'] ?>">
 
         <div class="form-group">
@@ -133,8 +149,8 @@
 
         <div class="form-group">
           <div class="col-lg-12">
-            <label for="remarks" class="control-label">Remarks</label>
-            <textarea class="form-control" name="remarks" id="remarks" required></textarea>
+            <label for="remarks" class="control-label">Remarks (Next vaccination date)</label>
+            <textarea class="form-control" name="remarks" id="remarks" disabled required></textarea>
           </div>
         </div>
         <hr>

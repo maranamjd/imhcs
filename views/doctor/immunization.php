@@ -84,7 +84,7 @@
                             <thead>
                               <th>Doses</th>
                               <th>Date</th>
-                              <th>Remarks</th>
+                              <th>Next Vaccination</th>
                               <th>Administered By</th>
                             </thead>
                             <tbody>
@@ -104,8 +104,15 @@
                           </table>
                         <?php else: ?>
                           <?php $next_level++; ?>
-                          <span class="btn btn-primary btn-sm btn-flat pull-right" id="add" data-id="<?php echo $vaccine['vaccine_id'] ?>"><i class="fa fa-plus"></i> New</span>
-                          <p>Nothing to show...</p>
+                          <?php if (isset($this->next_vaccine)): ?>
+                            <?php if ($this->next_vaccine['remarks'] != date("F d, Y")): ?>
+                              Child vaccination not available.<br>
+                              Next vaccination is on <?php echo $this->next_vaccine['remarks'] ?>.
+                            <?php else: ?>
+                              <span class="btn btn-primary btn-sm btn-flat pull-right" id="add" data-id="<?php echo $vaccine['vaccine_id'] ?>"><i class="fa fa-plus"></i> New</span>
+                              <p>Child vaccination now availble.</p>
+                            <?php endif; ?>
+                          <?php endif; ?>
                         <?php endif; ?>
                       </div>
                     </div>
@@ -114,6 +121,10 @@
               <?php endforeach; ?>
             <?php endif; ?>
           </div>
+          <span>
+            <b>NOTE:</b>
+            All vaccines must be administered at the same day
+          </span>
         </div>
       </div>
     </div>
@@ -138,8 +149,8 @@
 
         <div class="form-group">
           <div class="col-lg-12">
-            <label for="remarks" class="control-label">Remarks</label>
-            <textarea class="form-control" name="remarks" id="remarks" required></textarea>
+            <label for="remarks" class="control-label">Remarks (Next vaccination date)</label>
+            <textarea class="form-control" name="remarks" id="remarks" disabled required></textarea>
           </div>
         </div>
         <hr>
