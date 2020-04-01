@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2020 at 02:49 PM
+-- Generation Time: Apr 01, 2020 at 06:49 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.26
 
@@ -80,7 +80,7 @@ CREATE TABLE `immunization_record` (
 --
 
 INSERT INTO `immunization_record` (`immunization_record_id`, `child_name`, `mother_name`, `father_name`, `birthdate`, `birthplace`, `birth_height`, `birth_weight`, `sex`, `address`, `vaccination_level`, `created_on`, `active`) VALUES
-(1, 'Michael Joshua Marana', 'Marissa Marana', 'Fernando Marana', '2020-02-05', 'Camarines Norte', '130', '6', 1, 'Pampanga', 4, '2020-03-08 00:00:00', 1);
+(1, 'Michael Joshua Marana', 'Marissa Marana', 'Fernando Marana', '2020-02-05', 'Camarines Norte', '130', '6', 1, 'Pampanga', 2, '2020-03-08 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -340,14 +340,8 @@ CREATE TABLE `vaccination` (
 --
 
 INSERT INTO `vaccination` (`vaccination_id`, `immunization_record_id`, `vaccine_id`, `user_id`, `doses`, `date`, `remarks`, `vaccination_level`, `active`) VALUES
-(8, 1, 1, 'FDH342960817', '1', '2020-03-31', 'a', 1, 1),
-(9, 1, 2, 'FDH342960817', '1', '2020-03-31', 'as', 1, 1),
-(10, 1, 3, 'FDH342960817', '1', '2020-03-31', 'Next Vaccination on April 28, 2020', 2, 1),
-(11, 1, 4, 'FDH342960817', '1', '2020-03-31', 'Next Vaccination on April 28, 2020', 2, 1),
-(12, 1, 6, 'FDH342960817', '1', '2020-03-31', 'Next Vaccination on April 28, 2020', 2, 1),
-(13, 1, 3, 'FDH342960817', '1', '2020-03-31', 'Next Vaccination on April 28, 2020', 3, 1),
-(14, 1, 4, 'FDH342960817', '1', '2020-03-31', 'Next Vaccination on April 28, 2020', 3, 1),
-(15, 1, 6, 'FDH342960817', '1', '2020-03-31', 'Next Vaccination on April 28, 2020', 3, 1);
+(18, 1, 1, 'DYE473869250', '1', '2020-04-01', 'May 13, 2020', 1, 1),
+(19, 1, 2, 'FDH342960817', '1', '2020-04-01', 'May 13, 2020', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -541,7 +535,7 @@ ALTER TABLE `user_details`
 -- AUTO_INCREMENT for table `vaccination`
 --
 ALTER TABLE `vaccination`
-  MODIFY `vaccination_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `vaccination_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `vaccine`
