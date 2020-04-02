@@ -80,6 +80,9 @@
       }
     }
 
-
+    public function search(){
+      $key = $_POST['key'];
+      echo json_encode($this->checkup->select(['*'], "patient_id = '$key' AND active = 1"));
+    }
 
   }

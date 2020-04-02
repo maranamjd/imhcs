@@ -5,6 +5,7 @@
    //require templates
    require 'libs/downloads/Prescription.php';
    require 'libs/downloads/Immunization.php';
+   require 'libs/downloads/Referral.php';
    //require models
    require 'models/User.php';
    require 'models/User_Details.php';
@@ -76,5 +77,21 @@
       $this->file->vaccines = $vaccines;
       $this->file->generate();
     }
+
+    public function referral($id){
+      $this->file = new ReferralFile();
+      // $this->file->child_name = $immunization['child_name'];
+      // $this->file->mother_name = $immunization['mother_name'];
+      // $this->file->father_name = $immunization['father_name'];
+      // $this->file->address = $immunization['address'];
+      // $this->file->age = $this->get_week($immunization['birthdate'])." weeks";
+      // $this->file->sex = $this->get_sex($immunization['sex']);
+      // $this->file->personnel = $this->name_format($personnel['firstname'],$personnel['lastname'],$personnel['middlename'],true);
+      // $this->file->data = $vaccination;
+      // $this->file->vaccines = $vaccines;
+      $this->file->generate();
+    }
+
+
 
   }

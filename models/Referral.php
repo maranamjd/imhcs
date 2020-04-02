@@ -1,0 +1,16 @@
+<?php
+  /**
+   *
+   */
+  class Referral extends Model
+  {
+
+    function __construct()
+    {
+      parent::__construct();
+    }
+    public $columns = [];
+    public $table = 'referral';
+
+
+  }
