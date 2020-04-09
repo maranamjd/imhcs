@@ -98,7 +98,7 @@
       $this->_createInfo();
       $this->_createBody();
       $this->_createFooter();
-      $this->pdf->output('I', $this->patient_name."-prescription ".date('Y-m-d').".pdf");
+      $this->pdf->output('I', $this->patient_name."-Prescription ".date('Y-m-d').".pdf");
     }
 
   }

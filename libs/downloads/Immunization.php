@@ -156,7 +156,7 @@
       $this->_createInfo();
       $this->_createBody();
       $this->_createFooter();
-      $this->pdf->output('I', $this->child_name."-prescription ".date('Y-m-d').".pdf");
+      $this->pdf->output('I', $this->child_name."-Immunization ".date('Y-m-d').".pdf");
     }
 
   }

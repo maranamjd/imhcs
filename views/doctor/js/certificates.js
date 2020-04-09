@@ -18,6 +18,18 @@ $(document).ready(function(){
     });
   });
 
+  $(document).on('submit', '#medical_form', function(e){
+    e.preventDefault();
+    window.open(url+'downloads/medcert/'+$("#checkups").val(), '__blank');
+  });
+  $(document).on('submit', '#fitness_form', function(e){
+    e.preventDefault();
+    window.open(url+'downloads/fitcert/'+$("#checkups").val(), '__blank');
+  });
+
+
+
+
   $(document).on('input', '#patient', function(){
   if ($(this).val() != '') {
     $.ajax({

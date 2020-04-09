@@ -205,7 +205,7 @@
     }
 
     public function referral(){
-      $this->view->js = ['doctor/js/referral.js'];
+      $this->view->js = ['doctor/js/certificates.js'];
       $this->view->css = ['doctor/css/default.css'];
 
       // $this->view->data = $this->patient->select(['*'], 'active = 1');
@@ -213,13 +213,23 @@
       $this->view->render('doctor/referral', 'doctor/inc');
     }
 
-    public function report(){
-      $this->view->js = ['doctor/js/report.js'];
+    public function medcert(){
+      $this->view->js = ['doctor/js/certificates.js'];
       $this->view->css = ['doctor/css/default.css'];
 
       // $this->view->data = $this->patient->select(['*'], 'active = 1');
 
-      $this->view->render('doctor/report', 'doctor/inc');
+      $this->view->render('doctor/medcert', 'doctor/inc');
     }
+
+    public function fitcert(){
+      $this->view->js = ['doctor/js/certificates.js'];
+      $this->view->css = ['doctor/css/default.css'];
+
+      // $this->view->data = $this->patient->select(['*'], 'active = 1');
+
+      $this->view->render('doctor/fitcert', 'doctor/inc');
+    }
+
 
   }

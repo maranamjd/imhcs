@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2020 at 06:49 AM
+-- Generation Time: Apr 09, 2020 at 03:03 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.26
 
@@ -40,7 +40,7 @@ CREATE TABLE `checkup` (
   `height` varchar(16) DEFAULT NULL,
   `symptoms` text DEFAULT NULL,
   `diagnosis` text DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
+  `date` date DEFAULT NULL,
   `notes` text DEFAULT NULL,
   `active` smallint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -50,8 +50,8 @@ CREATE TABLE `checkup` (
 --
 
 INSERT INTO `checkup` (`checkup_id`, `patient_id`, `user_id`, `blood_pressure`, `temperature`, `pulse_rate`, `respiration_rate`, `weight`, `height`, `symptoms`, `diagnosis`, `date`, `notes`, `active`) VALUES
-(8, 'P000000002', 'FDH342960817', '80/110', '34', '82/90', '8/20', '55', '162', 'Headache', 'Hangover', '2020-03-23 00:00:00', 'Drink moderately', 1),
-(9, 'P000000003', 'FDH342960817', '80/110', '34', '82/90', '8/20', '66', '162', 'asdf', 'asdf', '2020-03-23 00:00:00', 'follow up checkup on March 30, 2020', 1);
+(8, 'P000000002', 'FDH342960817', '80/110', '34', '82/90', '8/20', '55', '162', 'Headache', 'Complications in breathing', '2020-03-23', 'Drink moderately', 1),
+(9, 'P000000003', 'FDH342960817', '80/110', '34', '82/90', '8/20', '66', '162', 'asdf', 'asdf', '2020-03-23', 'follow up checkup on March 30, 2020', 1);
 
 -- --------------------------------------------------------
 
@@ -153,7 +153,7 @@ CREATE TABLE `medication` (
 
 INSERT INTO `medication` (`medication_id`, `checkup_id`, `user_id`, `patient_id`, `med_id`, `quantity`, `status`, `date_requested`, `date_updated`) VALUES
 (8, 8, 'FDH342960817', 'P000000002', 4, 1, 2, '2020-03-23 12:08:19', '2020-03-23 12:31:46'),
-(9, 8, 'FDH342960817', 'P000000002', 3, 1, 0, '2020-03-23 13:53:17', NULL),
+(9, 8, 'FDH342960817', 'P000000002', 3, 1, 2, '2020-03-23 13:53:17', NULL),
 (10, 9, 'FDH342960817', 'P000000003', 4, 1, 0, '2020-03-23 14:23:21', NULL);
 
 -- --------------------------------------------------------
@@ -253,7 +253,32 @@ CREATE TABLE `prescription` (
 INSERT INTO `prescription` (`id`, `checkup_id`, `med_id`, `no_days`, `intake_schedule`, `before_meal`, `active`) VALUES
 (7, 8, 3, 1, '1-0-0', 1, 0),
 (8, 8, 4, 1, '1-1-0', 1, 0),
-(9, 9, 4, 1, '1-1-0', 1, 1);
+(9, 9, 4, 1, '1-1-0', 1, 1),
+(10, 8, 3, 1, '1-0-0', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `referral`
+--
+
+CREATE TABLE `referral` (
+  `referral_id` int(11) NOT NULL,
+  `checkup_id` int(11) NOT NULL,
+  `user_id` varchar(15) CHARACTER SET latin1 NOT NULL,
+  `physician` varchar(64) NOT NULL,
+  `address` text NOT NULL,
+  `recommendation` text NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `referral`
+--
+
+INSERT INTO `referral` (`referral_id`, `checkup_id`, `user_id`, `physician`, `address`, `recommendation`, `date`) VALUES
+(3, 8, 'FDH342960817', 'Shaira Nichole Mauro', 'Gil Puyat Avenue', 'adf', '2020-04-02'),
+(4, 8, 'FDH342960817', 'asdf', 'Gil Puyat Avenue', 'sadf', '2020-04-09');
 
 -- --------------------------------------------------------
 
@@ -440,6 +465,14 @@ ALTER TABLE `prescription`
   ADD KEY `med_id` (`med_id`);
 
 --
+-- Indexes for table `referral`
+--
+ALTER TABLE `referral`
+  ADD PRIMARY KEY (`referral_id`),
+  ADD KEY `checkup_ibfk_4` (`checkup_id`),
+  ADD KEY `user_id_ibfk_4` (`user_id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -523,7 +556,13 @@ ALTER TABLE `patient`
 -- AUTO_INCREMENT for table `prescription`
 --
 ALTER TABLE `prescription`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `referral`
+--
+ALTER TABLE `referral`
+  MODIFY `referral_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_details`
@@ -583,6 +622,13 @@ ALTER TABLE `medicine`
 ALTER TABLE `prescription`
   ADD CONSTRAINT `checkup_ibfk` FOREIGN KEY (`checkup_id`) REFERENCES `checkup` (`checkup_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `med_ibfk` FOREIGN KEY (`med_id`) REFERENCES `medicine` (`med_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `referral`
+--
+ALTER TABLE `referral`
+  ADD CONSTRAINT `checkup_ibfk_4` FOREIGN KEY (`checkup_id`) REFERENCES `checkup` (`checkup_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_id_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_details`
