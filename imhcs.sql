@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 09, 2020 at 03:03 PM
+-- Generation Time: Apr 12, 2020 at 06:03 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.26
 
@@ -154,7 +154,8 @@ CREATE TABLE `medication` (
 INSERT INTO `medication` (`medication_id`, `checkup_id`, `user_id`, `patient_id`, `med_id`, `quantity`, `status`, `date_requested`, `date_updated`) VALUES
 (8, 8, 'FDH342960817', 'P000000002', 4, 1, 2, '2020-03-23 12:08:19', '2020-03-23 12:31:46'),
 (9, 8, 'FDH342960817', 'P000000002', 3, 1, 2, '2020-03-23 13:53:17', NULL),
-(10, 9, 'FDH342960817', 'P000000003', 4, 1, 0, '2020-03-23 14:23:21', NULL);
+(10, 9, 'FDH342960817', 'P000000003', 4, 1, 1, '2020-03-23 14:23:21', '2020-04-12 11:27:17'),
+(11, 8, 'FDH342960817', 'P000000002', 3, 10, 1, '2020-04-12 11:21:31', '2020-04-12 11:25:18');
 
 -- --------------------------------------------------------
 
@@ -164,8 +165,9 @@ INSERT INTO `medication` (`medication_id`, `checkup_id`, `user_id`, `patient_id`
 
 CREATE TABLE `medicine` (
   `med_id` int(11) NOT NULL,
-  `name` varchar(150) NOT NULL,
   `category_id` int(11) NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `stock` int(11) NOT NULL DEFAULT 0,
   `active` smallint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -173,11 +175,12 @@ CREATE TABLE `medicine` (
 -- Dumping data for table `medicine`
 --
 
-INSERT INTO `medicine` (`med_id`, `name`, `category_id`, `active`) VALUES
-(3, 'Amoxcicillin', 1, 1),
-(4, 'Red Horse', 3, 1),
-(5, 'Tokhang', 2, 1),
-(6, 'Bioflu', 1, 0);
+INSERT INTO `medicine` (`med_id`, `category_id`, `name`, `stock`, `active`) VALUES
+(3, 1, 'Amoxcicillin', 1090, 1),
+(4, 3, 'Red Horse', 999, 1),
+(5, 2, 'Tokhang', 1000, 1),
+(6, 1, 'Bioflu', 0, 0),
+(7, 1, 'Penicillin', 10000, 1);
 
 -- --------------------------------------------------------
 
@@ -200,6 +203,31 @@ INSERT INTO `med_category` (`category_id`, `description`, `active`) VALUES
 (2, 'Gamot sa adik', 1),
 (3, 'Gamot sa puso', 1),
 (4, 'Bags', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `med_supply`
+--
+
+CREATE TABLE `med_supply` (
+  `med_supply_id` int(11) NOT NULL,
+  `med_id` int(11) NOT NULL,
+  `supplier_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `med_supply`
+--
+
+INSERT INTO `med_supply` (`med_supply_id`, `med_id`, `supplier_id`, `quantity`, `date`) VALUES
+(2, 3, 1, 100, '2020-04-12'),
+(3, 7, 1, 10000, '2020-04-12'),
+(4, 3, 1, 1000, '2020-04-12'),
+(5, 4, 1, 1000, '2020-04-12'),
+(6, 5, 1, 1000, '2020-04-12');
 
 -- --------------------------------------------------------
 
@@ -279,6 +307,26 @@ CREATE TABLE `referral` (
 INSERT INTO `referral` (`referral_id`, `checkup_id`, `user_id`, `physician`, `address`, `recommendation`, `date`) VALUES
 (3, 8, 'FDH342960817', 'Shaira Nichole Mauro', 'Gil Puyat Avenue', 'adf', '2020-04-02'),
 (4, 8, 'FDH342960817', 'asdf', 'Gil Puyat Avenue', 'sadf', '2020-04-09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `supplier`
+--
+
+CREATE TABLE `supplier` (
+  `supplier_id` int(11) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `address` text NOT NULL,
+  `active` smallint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `supplier`
+--
+
+INSERT INTO `supplier` (`supplier_id`, `name`, `address`, `active`) VALUES
+(1, 'Unilab', 'Makati, Philippines', 1);
 
 -- --------------------------------------------------------
 
@@ -450,6 +498,14 @@ ALTER TABLE `med_category`
   ADD PRIMARY KEY (`category_id`);
 
 --
+-- Indexes for table `med_supply`
+--
+ALTER TABLE `med_supply`
+  ADD PRIMARY KEY (`med_supply_id`),
+  ADD KEY `medicine_ibfk` (`med_id`),
+  ADD KEY `supplier_ibfk` (`supplier_id`);
+
+--
 -- Indexes for table `patient`
 --
 ALTER TABLE `patient`
@@ -471,6 +527,12 @@ ALTER TABLE `referral`
   ADD PRIMARY KEY (`referral_id`),
   ADD KEY `checkup_ibfk_4` (`checkup_id`),
   ADD KEY `user_id_ibfk_4` (`user_id`);
+
+--
+-- Indexes for table `supplier`
+--
+ALTER TABLE `supplier`
+  ADD PRIMARY KEY (`supplier_id`);
 
 --
 -- Indexes for table `user`
@@ -514,7 +576,7 @@ ALTER TABLE `checkup`
 -- AUTO_INCREMENT for table `immunization_record`
 --
 ALTER TABLE `immunization_record`
-  MODIFY `immunization_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `immunization_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `laboratory_request`
@@ -532,19 +594,25 @@ ALTER TABLE `laboratory_test`
 -- AUTO_INCREMENT for table `medication`
 --
 ALTER TABLE `medication`
-  MODIFY `medication_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `medication_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `medicine`
 --
 ALTER TABLE `medicine`
-  MODIFY `med_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `med_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `med_category`
 --
 ALTER TABLE `med_category`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `med_supply`
+--
+ALTER TABLE `med_supply`
+  MODIFY `med_supply_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `patient`
@@ -565,6 +633,12 @@ ALTER TABLE `referral`
   MODIFY `referral_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `supplier`
+--
+ALTER TABLE `supplier`
+  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `user_details`
 --
 ALTER TABLE `user_details`
@@ -574,7 +648,7 @@ ALTER TABLE `user_details`
 -- AUTO_INCREMENT for table `vaccination`
 --
 ALTER TABLE `vaccination`
-  MODIFY `vaccination_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `vaccination_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `vaccine`
@@ -615,6 +689,13 @@ ALTER TABLE `medication`
 --
 ALTER TABLE `medicine`
   ADD CONSTRAINT `category_ibfk` FOREIGN KEY (`category_id`) REFERENCES `med_category` (`category_id`);
+
+--
+-- Constraints for table `med_supply`
+--
+ALTER TABLE `med_supply`
+  ADD CONSTRAINT `medicine_ibfk` FOREIGN KEY (`med_id`) REFERENCES `medicine` (`med_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `supplier_ibfk` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`supplier_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `prescription`
