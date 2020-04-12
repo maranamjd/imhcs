@@ -3,6 +3,7 @@
    *
    */
    require 'models/Medication.php';
+   require 'models/Medicine.php';
 
 
   class MedicationController extends Controller
@@ -13,6 +14,7 @@
       parent::__construct();
       $this->auth->special();
       $this->medication = new Medication();
+      $this->medicine = new Medicine();
       $this->user_id = $this->session->get('user_id');
     }
 
@@ -65,14 +67,24 @@
           break;
 
         case 3:
-          $result = $this->medication->update([
-            'status' => 1,
-            'date_updated' => date('Y-m-d H:i:s')
-          ], "medication_id = $id");
-          if ($result) {
-            $this->response(['res' => 1, 'message' => 'Request Updated!']);
+          $med_id = $this->medication->select(['med_id'], "medication_id = $id")[0]['med_id'];
+          $quantity = $this->medication->select(['quantity'], "medication_id = $id")[0]['quantity'];
+          $stock = $this->medicine->select(['stock'], "med_id = $med_id")[0]['stock'];
+          if ($stock <= 100) {
+            $this->response(['res' => 0, 'message' => 'Cannot fulfill request due to low stock!']);
           }else {
-            $this->response(['res' => 1, 'message' => $result]);
+            $result = $this->medication->update([
+              'status' => 1,
+              'date_updated' => date('Y-m-d H:i:s')
+            ], "medication_id = $id");
+            $this->medicine->update([
+              'stock' => $stock - $quantity
+            ], "med_id = $med_id");
+            if ($result) {
+              $this->response(['res' => 1, 'message' => 'Request Updated!']);
+            }else {
+              $this->response(['res' => 1, 'message' => $result]);
+            }
           }
           break;
       }

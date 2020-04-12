@@ -92,9 +92,11 @@
               <li class="<?php echo ($this->page == "category") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/category"><i class="fa fa-list-alt"></i> Categories</a></li>
               <li class="<?php echo ($this->page == "lab") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/lab"><i class="fa fa-list-alt"></i> Laboratory Test</a></li>
               <li class="<?php echo ($this->page == "vaccine") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/vaccine"><i class="fa fa-list-alt"></i> Vaccines</a></li>
+              <li class="<?php echo ($this->page == "supplier") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/supplier"><i class="fa fa-list-alt"></i> Suppliers</a></li>
             </ul>
           </li>
 
+          <li class="<?php echo ($this->page == "inventory") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/inventory"><i class="fa fa-list"></i> <span>Inventory</span></a></li>
           <li class="<?php echo ($this->page == "report") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/report"><i class="fa fa-line-chart"></i> <span>Report</span></a></li>
           <li class="<?php echo ($this->page == "configuration") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/configuration"><i class="fa fa-database"></i> <span>System Configurations</span></a></li>
 

@@ -16,6 +16,10 @@
       $this->auth = new Auth();
     }
 
+    public function redirect($url){
+      header('Location: '.URL.$url);
+    }
+
     public function setPage($page){
       $this->view->page = $page;
     }

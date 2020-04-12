@@ -5,6 +5,7 @@
   class Helper
   {
 
+
     public function count($data){
       return is_array($data) ? count($data) : 0;
     }

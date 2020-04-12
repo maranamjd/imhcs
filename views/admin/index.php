@@ -14,6 +14,14 @@
 
     <!-- Main content -->
     <section class="content">
+      <?php if ($this->count($this->low_stock) >= 1): ?>
+        <a href="<?php echo URL ?>admin/inventory" title="click to view">
+          <div class="alert alert-warning">
+            <h4>Warning!</h4>
+            There are medicine/s that are low on stock!!
+          </div>
+        </a>
+      <?php endif; ?>
 
        <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">

@@ -10,6 +10,8 @@
    require 'models/Med_Category.php';
    require 'models/Lab_Test.php';
    require 'models/Vaccine.php';
+   require 'models/Supplier.php';
+   require 'models/Med_Supply.php';
 
   class AdminController extends Controller
   {
@@ -26,6 +28,8 @@
       $this->med_category = new Med_Category();
       $this->lab_test = new Lab_Test();
       $this->vaccine = new Vaccine();
+      $this->supplier = new Supplier();
+      $this->med_supply = new Med_Supply();
       $this->user_id = $this->session->get('user_id');
       $this->view->info = $this->_get_info();
     }
@@ -42,7 +46,7 @@
         'patient' => $this->patient->count('active = 1'),
         'medicine' => $this->medicine->count('active = 1')
       ];
-
+      $this->view->low_stock = $this->medicine->select(['name'], "stock <= 100 AND active = 1");
       //render page
       $this->view->render('admin/index', 'admin/inc');
     }
@@ -119,6 +123,25 @@
       $this->view->data = $this->vaccine->select(['*'], "active = 1");
 
       $this->view->render('admin/vaccine', 'admin/inc');
+    }
+
+
+    public function supplier(){
+      $this->view->js = ['admin/js/supplier.js'];
+      $this->view->css = ['admin/css/default.css'];
+      $this->view->data = $this->supplier->select(['*'], "active = 1");
+
+      $this->view->render('admin/supplier', 'admin/inc');
+    }
+
+    public function inventory(){
+      $this->view->js = ['admin/js/inventory.js'];
+      $this->view->css = ['admin/css/default.css'];
+      $this->view->data = $this->medicine->join('med_category', 'category_id', "medicine.active = 1");
+      $this->view->supplier = $this->supplier->select(['*'], "active = 1");
+      $this->view->low_stock = $this->medicine->select(['name'], "stock <= 100 AND active = 1");
+
+      $this->view->render('admin/inventory', 'admin/inc');
     }
 
   }

@@ -108,10 +108,10 @@
                             <?php if ($this->next_vaccine['remarks'] != date("F d, Y")): ?>
                               Child vaccination not available.<br>
                               Next vaccination is on <?php echo $this->next_vaccine['remarks'] ?>.
-                            <?php else: ?>
-                              <span class="btn btn-primary btn-sm btn-flat pull-right" id="add" data-id="<?php echo $vaccine['vaccine_id'] ?>"><i class="fa fa-plus"></i> New</span>
-                              <p>Child vaccination now availble.</p>
                             <?php endif; ?>
+                          <?php else: ?>
+                            <span class="btn btn-primary btn-sm btn-flat pull-right" id="add" data-id="<?php echo $vaccine['vaccine_id'] ?>"><i class="fa fa-plus"></i> New</span>
+                            <p>Child vaccination now availble.</p>
                           <?php endif; ?>
                         <?php endif; ?>
                       </div>
