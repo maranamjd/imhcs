@@ -36,7 +36,7 @@
 
     public function index(){
       //custom page css/js
-      $this->view->js = ['admin/js/default.js'];
+      $this->view->js = ['admin/js/dashboard.js'];
       $this->view->css = ['admin/css/default.css'];
       $this->view->data = [
         'doctor' => $this->user->count('user_type = 1 AND active = 1'),

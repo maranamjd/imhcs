@@ -16,7 +16,7 @@
     <script src="<?php echo URL ?>bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="<?php echo URL ?>bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
     <script src="<?php echo URL ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="<?php echo URL ?>bower_components/chart.js/Chart.js"></script>
+    <script src="<?php echo URL ?>bower_components/chart.js/dist/Chart.js"></script>
     <script src="<?php echo URL ?>dist/js/adminlte.min.js"></script>
     <script>
         let url = "http://localhost/imhcs/";
