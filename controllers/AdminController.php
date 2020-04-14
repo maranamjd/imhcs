@@ -12,6 +12,8 @@
    require 'models/Vaccine.php';
    require 'models/Supplier.php';
    require 'models/Med_Supply.php';
+   require 'models/Checkup.php';
+   require 'models/Immunization_Record.php';
 
   class AdminController extends Controller
   {
@@ -30,9 +32,13 @@
       $this->vaccine = new Vaccine();
       $this->supplier = new Supplier();
       $this->med_supply = new Med_Supply();
+      $this->checkup = new Checkup();
+      $this->immunization_record = new Immunization_Record();
       $this->user_id = $this->session->get('user_id');
       $this->view->info = $this->_get_info();
     }
+
+
 
     public function index(){
       //custom page css/js
@@ -44,7 +50,8 @@
         'laboratorist' => $this->user->count('user_type = 3 AND active = 1'),
         'pharmacist' => $this->user->count('user_type = 4 AND active = 1'),
         'patient' => $this->patient->count('active = 1'),
-        'medicine' => $this->medicine->count('active = 1')
+        'medicine' => $this->medicine->count('active = 1'),
+        'immunization' => $this->immunization_record->count('active = 1')
       ];
       $this->view->low_stock = $this->medicine->select(['name'], "stock <= 100 AND active = 1");
       //render page
