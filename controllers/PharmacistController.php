@@ -29,6 +29,11 @@
       $this->view->js = ['pharmacist/js/default.js'];
       $this->view->css = ['pharmacist/css/default.css'];
 
+      $this->view->data = [
+        'requested' => $this->medication->count("status = 0"),
+        'completed' => $this->medication->count("status = 1")
+      ];
+
       //render page
       $this->view->render('pharmacist/index', 'pharmacist/inc');
     }

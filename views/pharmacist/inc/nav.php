@@ -61,10 +61,10 @@
 
         <ul class="sidebar-menu" data-widget="tree">
 
-          <li class="<?php echo ($this->page == "index") ? 'active' : '' ?>"><a href="<?php echo URL ?>pharmacist"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+          <li class="<?php echo ($this->page == "index") ? 'active' : '' ?>"><a href="<?php echo URL ?>pharmacist"><i class="fa fa-columns"></i> <span>Dashboard</span></a></li>
           <li class="treeview <?php echo ($this->page == "requested" || $this->page == "completed") ? 'active' : '' ?>">
            <a href="#">
-             <i class="fa fa-tablet"></i>
+             <i class="fa fa-pills"></i>
              <span>Medication Requests</span>
              <span class="pull-right-container">
                <i class="fa fa-angle-left pull-right"></i>

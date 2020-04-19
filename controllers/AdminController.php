@@ -38,7 +38,102 @@
       $this->view->info = $this->_get_info();
     }
 
+    public function chart(){
+      $this->auth->special();
+      if (!isset($_POST['key'])) {
+        $this->error();
+      }
 
+
+
+      //disease
+      $result = $this->checkup->select(['DISTINCT diagnosis'], 'active = 1');
+      foreach ($result as $diagnosis) {
+        $cases[$diagnosis['diagnosis']] = $this->checkup->count("diagnosis = '".$diagnosis['diagnosis']."'");
+      }
+      arsort($cases);
+      $i = 1;
+      $diseases = ['others' => 0];
+      foreach ($cases as $key => $value) {
+        if ($i < 4) {
+          $diseases[$key] = $value;
+        }else {
+          $diseases['others'] += $value;
+        }
+        $i++;
+      }
+      // $this->response($cases);
+
+
+
+
+      //checkups
+      $gender = [
+        'male' => $this->count($this->checkup->join('patient', 'patient_id', "sex = 1 AND checkup.active = 1")),
+        'female' => $this->count($this->checkup->join('patient', 'patient_id', "sex = 2 AND checkup.active = 1"))
+      ];
+      // $this->response($gender);
+
+
+      // age
+      $patients = $this->patient->select(['birthdate'], "active = 1");
+      $below = 0; $teen = 0; $adult = 0; $senior = 0;
+      foreach ($patients as $patient) {
+        $age = $this->get_age($patient['birthdate']);
+        if ($age < 13) {
+          $below++;
+        }elseif ($age > 12 && $age < 20) {
+          $teen++;
+        }elseif ($age > 19 && $age < 60) {
+          $adult++;
+        }else {
+          $old++;
+        }
+      }
+      $ages = [
+        'below' => $below,
+        'teen' => $teen,
+        'adult' => $adult,
+        'senior' => $senior
+      ];
+      // $this->response($ages);
+
+
+
+
+      //number of patients
+      $patients = $this->patient->select(['created_on'], "active = 1");
+      $number_patients = [
+        'January' => [],
+        'February' => [],
+        'March' => [],
+        'April' => [],
+        'May' => [],
+        'June' => [],
+        'July' => [],
+        'August' => [],
+        'September' => [],
+        'October' => [],
+        'November' => [],
+        'December' => []
+      ];
+      foreach ($patients as $patient) {
+        $number_patients[date('F', strtotime($patient['created_on']))][] = 1 ;
+      }
+      foreach ($number_patients as $key => $value) {
+        $number_patients[$key] = $this->count($value);
+      }
+      // $this->response($number_patients);
+
+
+      $this->response([
+        'diseases' => $diseases,
+        'gender' => $gender,
+        'ages' => $ages,
+        'number_patients' => $number_patients
+      ]);
+
+    }
 
     public function index(){
       //custom page css/js
@@ -112,7 +207,7 @@
       $this->view->render('admin/lab_test', 'admin/inc');
     }
     public function report(){
-      $this->view->js = ['admin/js/default.js'];
+      $this->view->js = ['admin/js/report.js'];
       $this->view->css = ['admin/css/default.css'];
 
       $this->view->render('admin/report', 'admin/inc');

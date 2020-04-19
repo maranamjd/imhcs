@@ -29,6 +29,11 @@
       $this->view->js = ['laboratorist/js/default.js'];
       $this->view->css = ['laboratorist/css/default.css'];
 
+      $this->view->data = [
+        'requested' => $this->lab_request->count("status = 0"),
+        'completed' => $this->lab_request->count("status = 1")
+      ];
+
       //render page
       $this->view->render('laboratorist/index', 'laboratorist/inc');
     }

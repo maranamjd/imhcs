@@ -4,7 +4,9 @@ $(document).ready(function(){
   var checkups = document.getElementById('checkups').getContext('2d');
   var patient_age = document.getElementById('patient_age').getContext('2d');
 
-  function set_common_disease(){
+  function set_common_disease(diseases){
+    var labels = Object.keys(diseases).map(key => {return key});
+    var data = Object.values(diseases).map(value => {return value});
     var config = {
       type: 'pie',
       data: {
@@ -13,19 +15,17 @@ $(document).ready(function(){
             'rgba(40, 167, 69, 0.2)',
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
           ],
           borderColor: [
             'rgba(40, 167, 69, 0.2)',
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
           ],
-          data: [10, 20, 30]
+          data: data
         }],
-        labels: [
-          'Red',
-          'Yellow',
-          'Blue'
-        ]
+        labels: labels
       },
       options: {
         responsive: true,
@@ -47,18 +47,19 @@ $(document).ready(function(){
 
   }
 
-  function set_patients(){
+  function set_patients(number_patients){
+    var data = Object.values(number_patients).map(number => {return number});
     var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 		var config = {
 			type: 'line',
 			data: {
 				labels: MONTHS,
 				datasets: [{
-					label: 'Number',
+					label: 'Number Of Patients Monthly',
 					backgroundColor: ['rgba(40, 167, 69, 0.2)'],
 					borderColor: ['rgba(40, 167, 69, 0.2)'],
-					data: [3,15,3,4,7,12,20,23,1,9,10,25],
-					fill: false,
+					data: data,
+					fill: true,
 				}]
 			},
 			options: {
@@ -87,7 +88,7 @@ $(document).ready(function(){
 						display: true,
 						scaleLabel: {
 							display: true,
-							labelString: 'Value'
+							labelString: 'Number'
 						}
 					}]
 				}
@@ -99,7 +100,9 @@ $(document).ready(function(){
 
 
 
-  function set_checkups(){
+  function set_checkups(checkup_gender){
+    var labels = Object.keys(checkup_gender).map(keys => {return keys});
+    var data = Object.values(checkup_gender).map(values => {return values});
     var config = {
       type: 'bar',
       data: {
@@ -112,12 +115,9 @@ $(document).ready(function(){
             'rgba(40, 167, 69, 0.2)',
             'rgba(255, 99, 132, 0.2)'
           ],
-          data: [10, 20]
+          data: data
         }],
-        labels: [
-          'Male',
-          'Female'
-        ]
+        labels: labels
       },
       options: {
         responsive: true,
@@ -140,7 +140,9 @@ $(document).ready(function(){
   }
 
 
-  function set_patient_age(){
+  function set_patient_age(patient_ages){
+    var labels = Object.keys(patient_ages).map(keys => {return keys});
+    var data = Object.values(patient_ages).map(values => {return values});
     var config = {
       type: 'pie',
       data: {
@@ -149,19 +151,17 @@ $(document).ready(function(){
             'rgba(40, 167, 69, 0.2)',
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
           ],
           borderColor: [
             'rgba(40, 167, 69, 0.2)',
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
           ],
-          data: [10, 20, 8]
+          data: data
         }],
-        labels: [
-          '12 Below',
-          'Teenagers',
-          'Adults'
-        ]
+        labels: labels
       },
       options: {
         responsive: true,
@@ -184,10 +184,20 @@ $(document).ready(function(){
   }
 
 
-  set_common_disease();
-  set_patients();
-  set_checkups();
-  set_patient_age();
+
+  $.ajax({
+    url: url+"admin/chart",
+    method: 'post',
+    dataType: 'json',
+    data: {key: true},
+    success: function(data){
+      set_common_disease(data['diseases']);
+      set_patients(data['number_patients']);
+      set_checkups(data['gender']);
+      set_patient_age(data['ages']);
+    }
+  });
+
 
 
 

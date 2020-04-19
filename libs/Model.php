@@ -71,9 +71,9 @@
       }
     }
 
-    public function all(){
+    public function all($condition = '1'){
       try {
-        return $this->db->select($this->table, ["*"], "1");
+        return $this->db->select($this->table, ["*"], $condition);
       } catch (PDOException $e) {
         return $e->getMessage();
       }

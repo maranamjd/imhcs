@@ -61,7 +61,7 @@
 
         <ul class="sidebar-menu" data-widget="tree">
 
-          <li class="<?php echo ($this->page == "index") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+          <li class="<?php echo ($this->page == "index") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin"><i class="fa fa-columns"></i> <span>Dashboard</span></a></li>
 
           <li class="treeview <?php echo ($this->page == "doctor" || $this->page == "nurse" || $this->page == "laboratorist" || $this->page == "pharmacist") ? 'active' : '' ?>">
            <a href="#">
@@ -74,14 +74,14 @@
            <ul class="treeview-menu">
              <li class="<?php echo ($this->page == "doctor") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/doctor"><i class="fa fa-user-md"></i> Doctors</a></li>
              <li class="<?php echo ($this->page == "nurse") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/nurse"><i class="fa fa-female"></i> Nurse</a></li>
-             <li class="<?php echo ($this->page == "laboratorist") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/laboratorist"><i class="fa fa-plus-square"></i> Laboratorist</a></li>
-             <li class="<?php echo ($this->page == "pharmacist") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/pharmacist"><i class="fa fa-flask"></i> Pharmacist</a></li>
+             <li class="<?php echo ($this->page == "laboratorist") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/laboratorist"><i class="fa fa-flask"></i> Laboratorist</a></li>
+             <li class="<?php echo ($this->page == "pharmacist") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/pharmacist"><i class="fa fa-pills"></i> Pharmacist</a></li>
            </ul>
          </li>
 
            <li class="treeview <?php echo ($this->page == "medicine" || $this->page == "category" || $this->page == "lab" || $this->page == "vaccine") ? 'active' : '' ?>">
             <a href="#">
-              <i class="fa fa-gear"></i>
+              <i class="fa fa-cog"></i>
               <span>Maintenance</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
@@ -90,14 +90,14 @@
             <ul class="treeview-menu">
               <li class="<?php echo ($this->page == "medicine") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/medicine"><i class="fa fa-medkit"></i> Medicines</a></li>
               <li class="<?php echo ($this->page == "category") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/category"><i class="fa fa-list-alt"></i> Categories</a></li>
-              <li class="<?php echo ($this->page == "lab") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/lab"><i class="fa fa-list-alt"></i> Laboratory Test</a></li>
-              <li class="<?php echo ($this->page == "vaccine") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/vaccine"><i class="fa fa-list-alt"></i> Vaccines</a></li>
-              <li class="<?php echo ($this->page == "supplier") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/supplier"><i class="fa fa-list-alt"></i> Suppliers</a></li>
+              <li class="<?php echo ($this->page == "lab") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/lab"><i class="fa fa-x-ray"></i> Laboratory Test</a></li>
+              <li class="<?php echo ($this->page == "vaccine") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/vaccine"><i class="fa fa-syringe"></i> Vaccines</a></li>
+              <li class="<?php echo ($this->page == "supplier") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/supplier"><i class="fa fa-truck"></i> Suppliers</a></li>
             </ul>
           </li>
 
-          <li class="<?php echo ($this->page == "inventory") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/inventory"><i class="fa fa-list"></i> <span>Inventory</span></a></li>
-          <li class="<?php echo ($this->page == "report") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/report"><i class="fa fa-line-chart"></i> <span>Report</span></a></li>
+          <li class="<?php echo ($this->page == "inventory") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/inventory"><i class="fa fa-warehouse"></i> <span>Inventory</span></a></li>
+          <li class="<?php echo ($this->page == "report") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/report"><i class="fa fa-chart-bar"></i> <span>Report</span></a></li>
           <li class="<?php echo ($this->page == "configuration") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/configuration"><i class="fa fa-database"></i> <span>System Configurations</span></a></li>
 
 

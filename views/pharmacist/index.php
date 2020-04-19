@@ -13,7 +13,28 @@
 
   <!-- Main content -->
   <section class="content">
-      dashboard
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-aqua"><i class="fa fa-pills"></i></span>
+        <div class="info-box-content">
+          <a href="<?php echo URL ?>pharmacist/requested">
+          <span class="info-box-text">Requested</span>
+          <?php echo $this->data['requested'] ?>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-green"><i class="fa fa-check"></i></span>
+        <div class="info-box-content">
+          <a href="<?php echo URL ?>pharmacist/completed">
+          <span class="info-box-text">Completed</span>
+          <?php echo $this->data['completed'] ?>
+          </a>
+        </div>
+      </div>
+    </div>
   </section>
 
 </div>

@@ -10,6 +10,7 @@
     <nav class="navbar navbar-static-top">
       <!-- Sidebar toggle button-->
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <!-- <i class="fa fa-bars"></i> -->
         <span class="sr-only">Toggle navigation</span>
       </a>
 
@@ -61,9 +62,9 @@
 
         <ul class="sidebar-menu" data-widget="tree">
 
-          <li class="<?php echo ($this->page == "index") ? 'active' : '' ?>"><a href="<?php echo URL ?>nurse"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+          <li class="<?php echo ($this->page == "index") ? 'active' : '' ?>"><a href="<?php echo URL ?>nurse"><i class="fa fa-columns"></i> <span>Dashboard</span></a></li>
           <li class="<?php echo ($this->page == "patient") ? 'active' : '' ?>"><a href="<?php echo URL ?>nurse/patient"><i class="fa fa-wheelchair"></i> <span>Patient</span></a></li>
-          <li class="<?php echo ($this->page == "vaccine") ? 'active' : '' ?>"><a href="<?php echo URL ?>nurse/vaccine"><i class="fa fa-medkit"></i> <span>Vaccine</span></a></li>
+          <li class="<?php echo ($this->page == "vaccine") ? 'active' : '' ?>"><a href="<?php echo URL ?>nurse/vaccine"><i class="fa fa-syringe"></i> <span>Vaccine</span></a></li>
 
         </ul>
       </section>
