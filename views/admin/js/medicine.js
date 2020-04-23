@@ -3,6 +3,7 @@ $(document).ready(function(){
 
   $(document).on('click', '#add', function(){
     $('#name').val('');
+    $('#validity').val('1');
     $('#category').val('');
     $('#process').val('add');
     $('#main_content').attr('class', 'col-lg-8');
@@ -25,6 +26,7 @@ $(document).ready(function(){
       success: function(data){
         $('#name').val(data['name']);
         $('#category').val(data['category_id']);
+        $('#validity').val(data['validity_period']);
         $('#process').attr('data-id', data['med_id']);
       }
     });
@@ -48,6 +50,7 @@ $(document).ready(function(){
           let formData = new FormData();
           formData.append('name', $('#name').val());
           formData.append('category', $('#category').val());
+          formData.append('validity', $('#validity').val());
           $.ajax({
             url: url+'medicine/create',
             method: 'post',
@@ -95,6 +98,7 @@ $(document).ready(function(){
           formData.append('type', '1');
           formData.append('id', $('#process').attr('data-id'));
           formData.append('name', $('#name').val());
+          formData.append('validity', $('#validity').val());
           formData.append('category', $('#category').val());
           $.ajax({
             url: url+'medicine/update',

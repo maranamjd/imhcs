@@ -16,6 +16,20 @@
       $this->auth = new Auth();
     }
 
+
+
+    public function get_stock_code(){
+      $today = date('Ymd');
+      $code = $this->med_supply->select(['MAX(stock_code) as stock_code'], "stock_code LIKE '%$today%'");
+      if ($this->count($code) > 0) {
+        return ++$code[0]['stock_code'];
+      }else {
+        return $today.'001';
+      }
+    }
+
+
+
     public function redirect($url){
       header('Location: '.URL.$url);
     }

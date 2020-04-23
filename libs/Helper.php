@@ -6,6 +6,13 @@
   {
 
 
+    public function validity_status($date, $period){
+      $expiration = strtotime("$date + $period week");
+      $today = strtotime(date('Y-m-d'));
+      return $expiration - $today == 0 ? 1 : 'will expire on '.date('F d, Y', $expiration);
+    }
+
+
     public function count($data){
       return is_array($data) ? count($data) : 0;
     }

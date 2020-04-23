@@ -6,6 +6,7 @@
    require 'models/Medicine.php';
    require 'models/Prescription.php';
    require 'models/Medication.php';
+   require 'models/Med_Supply.php';
 
   class MedicineController extends Controller
   {
@@ -17,11 +18,13 @@
       $this->medicine = new Medicine();
       $this->prescription = new Prescription();
       $this->medication = new Medication();
+      $this->med_supply = new Med_Supply();
     }
 
     public function create(){
       $this->medicine->columns = [
         'name' => $_POST['name'],
+        'validity_period'=> $_POST['validity'],
         'category_id'=> $_POST['category']
       ];
       $result = $this->medicine->save();
@@ -44,7 +47,8 @@
         case 1:
           $result = $this->medicine->update([
             'name' => $_POST['name'],
-            'category_id' => $_POST['category']
+            'category_id' => $_POST['category'],
+            'validity_period'=> $_POST['validity']
           ], "med_id = $id");
           if ($result) {
             $this->response(['res' => 1, 'message' => 'Successfuly Updated!']);
@@ -57,6 +61,22 @@
           $result = $this->medicine->update(['active' => 0], "med_id = $id");
           if ($result) {
             $this->response(['res' => 1, 'message' => 'Successfuly Deleted!']);
+          }else {
+            $this->response(['res' => 1, 'message' => $result]);
+          }
+          break;
+
+        case 3:
+          $supply = $this->med_supply->join('medicine', 'med_id', "med_supply_id = $id")[0];
+          $total = 0;
+          $quantity = 0;
+          if ($supply['stock'] > $supply['quantity']) {
+            $quantity = $supply['stock'] - $supply['quantity'];
+          }
+          $result = $this->medicine->update(['stock' => $quantity], "med_id = ".$supply['med_id']);
+          if ($result) {
+            $this->med_supply->update(['pulled_out' => 1], "med_supply_id = $id");
+            $this->response(['res' => 1, 'message' => 'Successfuly pulled out!']);
           }else {
             $this->response(['res' => 1, 'message' => $result]);
           }

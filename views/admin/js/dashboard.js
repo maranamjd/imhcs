@@ -104,7 +104,7 @@ $(document).ready(function(){
     var labels = Object.keys(checkup_gender).map(keys => {return keys});
     var data = Object.values(checkup_gender).map(values => {return values});
     var config = {
-      type: 'bar',
+      type: 'pie',
       data: {
         datasets: [{
           backgroundColor: [

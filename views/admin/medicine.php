@@ -22,6 +22,7 @@
               <thead>
                 <th>Name</th>
                 <th>Category</th>
+                <th>Validity Period (week/s)</th>
                 <th>Tools</th>
               </thead>
               <tbody>
@@ -30,6 +31,7 @@
                     <tr>
                       <td><?php echo $medicine['name']; ?></td>
                       <td><?php echo $medicine['description']; ?></td>
+                      <td><?php echo $medicine['validity_period']; ?></td>
                       <td>
                         <span>
                           <button class="btn btn-success btn-sm btn-md" data-id="<?php echo $medicine['med_id']; ?>" id="edit"><i class="fa fa-edit"></i></button>
@@ -66,6 +68,13 @@
                   <option value="<?php echo $category['category_id'] ?>"><?php echo $category['description'] ?></option>
                 <?php endforeach; ?>
               </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-lg-12">
+              <label for="validity" class="control-label">Validity Period (week/s)</label>
+              <input type="number" class="form-control" id="validity" name="validity" min="1" max="100" maxlength="3" required>
             </div>
           </div>
           <hr>

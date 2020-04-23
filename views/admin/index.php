@@ -17,6 +17,15 @@
     <div class="row">
       <div class="col-lg-12">
 
+        <?php if ($this->count($this->expired) >= 1): ?>
+        <a href="<?php echo URL ?>admin/supply" title="click to view">
+          <div class="alert alert-warning">
+            <h4>Warning!</h4>
+            There are expired medicine/s that needs to be pulled out!!
+          </div>
+        </a>
+        <?php endif; ?>
+
         <?php if ($this->count($this->low_stock) >= 1): ?>
         <a href="<?php echo URL ?>admin/inventory" title="click to view">
           <div class="alert alert-warning">

@@ -149,6 +149,14 @@
         'immunization' => $this->immunization_record->count('active = 1')
       ];
       $this->view->low_stock = $this->medicine->select(['name'], "stock <= 100 AND active = 1");
+      $expired = [];
+      $supply = $this->med_supply->join('medicine', 'med_id', "pulled_out = 0");
+      foreach ($supply as $key => $value) {
+        if ($this->validity_status($value['date'], $value['validity_period']) == 1) {
+          $expired[] = $value;
+        }
+      }
+      $this->view->expired = $expired;
       //render page
       $this->view->render('admin/index', 'admin/inc');
     }
@@ -244,6 +252,22 @@
       $this->view->low_stock = $this->medicine->select(['name'], "stock <= 100 AND active = 1");
 
       $this->view->render('admin/inventory', 'admin/inc');
+    }
+
+    public function supply(){
+      $this->view->js = ['admin/js/supply.js'];
+      $this->view->css = ['admin/css/default.css'];
+      $this->view->data = $this->medicine->join('med_supply', 'med_id', "pulled_out = 0");
+      $expired = [];
+      $supply = $this->med_supply->join('medicine', 'med_id', "pulled_out = 0");
+      foreach ($supply as $key => $value) {
+        if ($this->validity_status($value['date'], $value['validity_period']) == 1) {
+          $expired[] = $value;
+        }
+      }
+      $this->view->expired = $expired;
+
+      $this->view->render('admin/supply', 'admin/inc');
     }
 
   }

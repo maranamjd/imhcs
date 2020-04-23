@@ -97,6 +97,7 @@
           </li>
 
           <li class="<?php echo ($this->page == "inventory") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/inventory"><i class="fa fa-warehouse"></i> <span>Inventory</span></a></li>
+          <li class="<?php echo ($this->page == "supply") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/supply"><i class="fa fa-truck-loading"></i> <span>Medicine Supply</span></a></li>
           <li class="<?php echo ($this->page == "report") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/report"><i class="fa fa-chart-bar"></i> <span>Report</span></a></li>
           <li class="<?php echo ($this->page == "configuration") ? 'active' : '' ?>"><a href="<?php echo URL ?>admin/configuration"><i class="fa fa-database"></i> <span>System Configurations</span></a></li>
 

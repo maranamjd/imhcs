@@ -22,6 +22,7 @@
       $stock = $this->medicine->select(['stock'], "med_id = $med_id")[0]['stock'];
       $this->med_supply->columns = [
         'med_supply_id' => null,
+        'stock_code' => $this->get_stock_code(),
         'med_id' => $med_id,
         'supplier_id' => $_POST['supplier_id'],
         'quantity' => $_POST['quantity'],
