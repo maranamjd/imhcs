@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 12, 2020 at 06:03 AM
+-- Generation Time: Apr 23, 2020 at 01:16 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.26
 
@@ -51,7 +51,8 @@ CREATE TABLE `checkup` (
 
 INSERT INTO `checkup` (`checkup_id`, `patient_id`, `user_id`, `blood_pressure`, `temperature`, `pulse_rate`, `respiration_rate`, `weight`, `height`, `symptoms`, `diagnosis`, `date`, `notes`, `active`) VALUES
 (8, 'P000000002', 'FDH342960817', '80/110', '34', '82/90', '8/20', '55', '162', 'Headache', 'Complications in breathing', '2020-03-23', 'Drink moderately', 1),
-(9, 'P000000003', 'FDH342960817', '80/110', '34', '82/90', '8/20', '66', '162', 'asdf', 'asdf', '2020-03-23', 'follow up checkup on March 30, 2020', 1);
+(9, 'P000000003', 'FDH342960817', '80/110', '34', '82/90', '8/20', '66', '162', 'asdf', 'asdf', '2020-03-23', 'follow up checkup on March 30, 2020', 1),
+(10, 'P000000004', 'FDH342960817', '80/110', '37', '82/90', '8/20', '80', '182', 'Headache', 'Migraine', '2020-04-21', 'April 25, 2020', 1);
 
 -- --------------------------------------------------------
 
@@ -155,7 +156,8 @@ INSERT INTO `medication` (`medication_id`, `checkup_id`, `user_id`, `patient_id`
 (8, 8, 'FDH342960817', 'P000000002', 4, 1, 2, '2020-03-23 12:08:19', '2020-03-23 12:31:46'),
 (9, 8, 'FDH342960817', 'P000000002', 3, 1, 2, '2020-03-23 13:53:17', NULL),
 (10, 9, 'FDH342960817', 'P000000003', 4, 1, 1, '2020-03-23 14:23:21', '2020-04-12 11:27:17'),
-(11, 8, 'FDH342960817', 'P000000002', 3, 10, 1, '2020-04-12 11:21:31', '2020-04-12 11:25:18');
+(11, 8, 'FDH342960817', 'P000000002', 3, 10, 1, '2020-04-12 11:21:31', '2020-04-12 11:25:18'),
+(12, 10, 'FDH342960817', 'P000000004', 6, 9, 0, '2020-04-21 13:21:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -167,6 +169,7 @@ CREATE TABLE `medicine` (
   `med_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `name` varchar(150) NOT NULL,
+  `validity_period` int(11) NOT NULL,
   `stock` int(11) NOT NULL DEFAULT 0,
   `active` smallint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -175,12 +178,12 @@ CREATE TABLE `medicine` (
 -- Dumping data for table `medicine`
 --
 
-INSERT INTO `medicine` (`med_id`, `category_id`, `name`, `stock`, `active`) VALUES
-(3, 1, 'Amoxcicillin', 1090, 1),
-(4, 3, 'Red Horse', 999, 1),
-(5, 2, 'Tokhang', 1000, 1),
-(6, 1, 'Bioflu', 0, 0),
-(7, 1, 'Penicillin', 10000, 1);
+INSERT INTO `medicine` (`med_id`, `category_id`, `name`, `validity_period`, `stock`, `active`) VALUES
+(3, 1, 'Amoxcicillin', 1, 1000, 1),
+(4, 3, 'Red Horse', 9, 0, 1),
+(5, 2, 'Tokhang', 9, 0, 1),
+(6, 1, 'Bioflu', 5, 1000, 1),
+(7, 1, 'Penicillin', 5, 1000, 1);
 
 -- --------------------------------------------------------
 
@@ -199,7 +202,7 @@ CREATE TABLE `med_category` (
 --
 
 INSERT INTO `med_category` (`category_id`, `description`, `active`) VALUES
-(1, 'Antibiotics', 0),
+(1, 'Antibiotics', 1),
 (2, 'Gamot sa adik', 1),
 (3, 'Gamot sa puso', 1),
 (4, 'Bags', 0);
@@ -212,22 +215,22 @@ INSERT INTO `med_category` (`category_id`, `description`, `active`) VALUES
 
 CREATE TABLE `med_supply` (
   `med_supply_id` int(11) NOT NULL,
+  `stock_code` varchar(11) NOT NULL,
   `med_id` int(11) NOT NULL,
   `supplier_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `date` date NOT NULL
+  `date` date NOT NULL,
+  `pulled_out` smallint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `med_supply`
 --
 
-INSERT INTO `med_supply` (`med_supply_id`, `med_id`, `supplier_id`, `quantity`, `date`) VALUES
-(2, 3, 1, 100, '2020-04-12'),
-(3, 7, 1, 10000, '2020-04-12'),
-(4, 3, 1, 1000, '2020-04-12'),
-(5, 4, 1, 1000, '2020-04-12'),
-(6, 5, 1, 1000, '2020-04-12');
+INSERT INTO `med_supply` (`med_supply_id`, `stock_code`, `med_id`, `supplier_id`, `quantity`, `date`, `pulled_out`) VALUES
+(9, '20200423001', 3, 1, 1000, '2020-04-16', 0),
+(14, '20200423002', 6, 1, 1000, '2020-04-23', 0),
+(15, '20200423003', 7, 1, 1000, '2020-04-23', 0);
 
 -- --------------------------------------------------------
 
@@ -254,9 +257,10 @@ CREATE TABLE `patient` (
 --
 
 INSERT INTO `patient` (`id`, `patient_id`, `firstname`, `middlename`, `lastname`, `address`, `birthdate`, `contact_info`, `sex`, `active`, `created_on`) VALUES
-(11, 'P000000001', 'Michael', 'Duran', 'Marana', 'Pampanga', '1997-10-11', '09334237563', 1, 1, '2020-03-19'),
+(11, 'P000000001', 'Michael', 'Duran', 'Marana', 'Pampanga', '1997-10-11', '09334237563', 1, 1, '2020-02-12'),
 (13, 'P000000002', 'Mellisa', 'Fuentes', 'Ancino', 'bulacan', '1997-03-04', '0394467361', 2, 1, '2020-03-19'),
-(14, 'P000000003', 'Adolf', NULL, 'Hitler', 'Berlin, Germany', '1978-11-28', '0937362834', 1, 1, '2020-03-19');
+(14, 'P000000003', 'Adolf', NULL, 'Hitler', 'Berlin, Germany', '1978-11-28', '0937362834', 1, 1, '2020-03-19'),
+(17, 'P000000004', 'John', NULL, 'Doe', 'Brooklyn, New York, United States of America', '1987-05-23', '0947342765', 1, 1, '2020-04-21');
 
 -- --------------------------------------------------------
 
@@ -282,7 +286,8 @@ INSERT INTO `prescription` (`id`, `checkup_id`, `med_id`, `no_days`, `intake_sch
 (7, 8, 3, 1, '1-0-0', 1, 0),
 (8, 8, 4, 1, '1-1-0', 1, 0),
 (9, 9, 4, 1, '1-1-0', 1, 1),
-(10, 8, 3, 1, '1-0-0', 1, 1);
+(10, 8, 3, 1, '1-0-0', 1, 1),
+(11, 10, 6, 3, '1-1-1', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -570,7 +575,7 @@ ALTER TABLE `vaccine`
 -- AUTO_INCREMENT for table `checkup`
 --
 ALTER TABLE `checkup`
-  MODIFY `checkup_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `checkup_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `immunization_record`
@@ -594,7 +599,7 @@ ALTER TABLE `laboratory_test`
 -- AUTO_INCREMENT for table `medication`
 --
 ALTER TABLE `medication`
-  MODIFY `medication_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `medication_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `medicine`
@@ -612,19 +617,19 @@ ALTER TABLE `med_category`
 -- AUTO_INCREMENT for table `med_supply`
 --
 ALTER TABLE `med_supply`
-  MODIFY `med_supply_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `med_supply_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `prescription`
 --
 ALTER TABLE `prescription`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `referral`
