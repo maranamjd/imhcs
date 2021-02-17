@@ -2,8 +2,8 @@
 
   require 'config.php';
   date_default_timezone_set("Asia/Manila");
-  function __autoload($class){
+  spl_autoload_register(function($class){
     require 'libs/'.$class.'.php';
-  }
+  });
 
   $app = new Bootstrap();
